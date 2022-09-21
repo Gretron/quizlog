@@ -7,6 +7,7 @@ The name of the team for this web application is **quiztionmark**.
 ## Team Members
 
 - Ano-Trudeau, David (2070778)
+- **Another teammate since this is meant to be a team project**
 
 ## Project Description
 
@@ -22,6 +23,7 @@ This web application will be a quizzing website where registered users, usually 
 6. As a user, I can perform a quiz in exam mode (1 feature)
 7. As a user, I can view performed quizzes history (1 feature)
 8. As a user, I can view performed quiz details and results (1 feature)
+9. (3 more features for a 2-person team)
 
 ## Estimated Time
 
