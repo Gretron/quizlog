@@ -102,3 +102,29 @@ Feature: Delete Question
 		And I see 'Delete Question'
 		When I click Delete Question
 		Then I don't see 'questiontext'
+
+Feature: View Results
+	In order to view quiz results
+	As a user
+	I need to navigate to a page with the results
+
+	Scenario:
+		Given I am logged in
+		And I am on '/quiz'
+		When I click History
+		Then I am on '/history'
+		And I see 'Score'
+
+Feature: View Result Details
+	In order to view quiz result details
+	As a user
+	I need to navigate to a page with the result details
+
+	Scenario:
+		Given I am logged in
+		And I am on '/history'
+		When I click Details
+		Then I am on '/history/details/resultid'
+		And I see 'Score'
+		And I see 'questiontext'
+		And I see 'Correct' or 'Incorrect'
