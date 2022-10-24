@@ -1,0 +1,47 @@
+Feature: Create Quiz
+	In order to create a quiz
+	As a user
+	I need to click a button on /quiz to create a quiz
+
+	Scenario:
+		Given I am logged in
+		And I navigate to '/quiz'
+		When I click Create
+		Then I am on '/quiz/create'
+
+Feature: Modify Quiz
+	In order to modify a quiz
+	As a user
+	I need to click a button on /quiz to modify a quiz
+
+	Scenario:
+		Given I am logged in
+		And I navigate to '/quiz'
+		And I see 'title'
+		And I see 'description'
+		When I click Modify
+		Then I am on '/quiz/modify/id'
+		And I see 'title'
+		And I see 'description'
+		When I enter 'newTitle' in title box
+		And I enter 'newDescription' in description box
+		And I press Save
+		Then I am on '/quiz/modify/id'
+		And I see 'newTitle'
+		And I see 'newDescription'
+
+Feature: Delete Quiz
+	In order to delete a quiz
+	As a user
+	I need to click a button on /quiz to delete a quiz
+
+	Scenario:
+		Given I am logged in
+		And I navigate to '/quiz'
+		And I see quiz 'title'
+		When I click Delete
+		Then I am on '/quiz'
+		And I don't see 'title'
+
+
+
