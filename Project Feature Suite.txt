@@ -1,47 +1,104 @@
 Feature: Create Quiz
 	In order to create a quiz
 	As a user
-	I need to click a button on /quiz to create a quiz
+	I need to click a button to create a quiz
 
 	Scenario:
 		Given I am logged in
-		And I navigate to '/quiz'
-		When I click Create
-		Then I am on '/quiz/create'
+		And I am on '/quiz'
+		When I click Create Quiz
+		Then I am on '/quiz/details/quizid'
+		When I enter 'title'
+		And I enter 'description'
+		And I click Save
+		Then I am on '/quiz'
+		And I see 'title'
+		And I see 'description'
 
 Feature: Modify Quiz
 	In order to modify a quiz
 	As a user
-	I need to click a button on /quiz to modify a quiz
+	I need to input new information to modify a quiz
 
 	Scenario:
 		Given I am logged in
-		And I navigate to '/quiz'
+		And I am on '/quiz'
 		And I see 'title'
 		And I see 'description'
-		When I click Modify
-		Then I am on '/quiz/modify/id'
+		And I see 'Modify Quiz'
+		When I click Modify Quiz
+		Then I am on '/quiz/details/quizid'
 		And I see 'title'
 		And I see 'description'
 		When I enter 'newTitle' in title box
 		And I enter 'newDescription' in description box
-		And I press Save
-		Then I am on '/quiz/modify/id'
+		And I click Save
+		Then I am on '/quiz/details/quizid'
 		And I see 'newTitle'
 		And I see 'newDescription'
 
 Feature: Delete Quiz
 	In order to delete a quiz
 	As a user
-	I need to click a button on /quiz to delete a quiz
+	I need to click a button to delete a quiz
 
 	Scenario:
 		Given I am logged in
-		And I navigate to '/quiz'
+		And I am on '/quiz'
 		And I see quiz 'title'
-		When I click Delete
+		And I see 'Delete Quiz'
+		When I click Delete Quiz
 		Then I am on '/quiz'
 		And I don't see 'title'
 
+Feature: Add Question
+	In order to create a quiz question
+	As a user
+	I need to input information to add a question
 
+	Scenario:
+		Given I am logged in
+		And I am on '/quiz/details/quizid'
+		When I click Add Question
+		Then I am on '/question/add/quizid'
+		When I enter 'questiontext' in question text box
+		And I enter 'optiononetext' in option one box
+		And I enter 'optiontwotext' in option two box
+		And I press Add
+		Then I am on '/quiz/details/quizid'
+		And I see 'questiontext'
+		And I see 'optiononetext'
+		And I see 'optiontwotext'
 
+Feature: Edit Question
+	In order to create a quiz question
+	As a user
+	I need to input information to edit a question
+
+	Scenario:
+		Given I am logged in
+		And I am on '/quiz/details/quizid'
+		And I see 'Edit Question'
+		When I click Edit Question
+		Then I am on '/question/edit/questionid'
+		When I enter 'questiontext' in question text box
+		And I enter 'optiononetext' in option one box
+		And I enter 'optiontwotext' in option two box
+		And I press Edit
+		Then I am on '/quiz/details/quizid'
+		And I see 'questiontext'
+		And I see 'optiononetext'
+		And I see 'optiontwotext'
+
+Feature: Delete Question
+	In order to create a quiz question
+	As a user
+	I need to click a button to delete a question
+
+	Scenario:
+		Given I am logged in
+		And I am on '/quiz/details/quizid'
+		And I see 'questiontext'
+		And I see 'Delete Question'
+		When I click Delete Question
+		Then I don't see 'questiontext'
