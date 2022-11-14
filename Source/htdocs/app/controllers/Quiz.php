@@ -34,12 +34,11 @@ class Quiz extends \app\core\Controller
 
             $quiz->quizTime = $_POST['quiz-time'];
 
-            // If Quiz Successfully Inserted...
-            if ($quiz->insertQuiz() > 0)
-            {
-                // Get Inserted Quiz
-                $quiz = $quiz->selectRecentQuizByUserId($_SESSION['UserId']);
+            $quizId = $quiz->insertQuiz();
 
+            // If Quiz Successfully Inserted...
+            if ($quizId > 0)
+            {
                 // Start Count
                 $count = 0;
 
@@ -48,16 +47,18 @@ class Quiz extends \app\core\Controller
                     $qId = 'q' . $count;
 
                     $question = new \app\models\Question();
-                    $question->quizId = $quiz->QuizId;
+                    $question->quizId = $quizId;
                     $question->questionText = $_POST[$qId . '-txt'];
                     $question->questionImage = $_FILES[$qId . '-img'];
                     $question->questionHint = $_POST[$qId . '-hint'];
                     $question->questionType = $_POST[$qId . '-type'];
 
-                    if ($question->insertQuestion() > 0)
+                    $questionId = $question->insertQuestion();
+
+                    if ($questionId > 0)
                     {
                         // Get Inserted Question
-                        $question = $question->selectRecentQuestionByQuizId($quiz->QuizId);
+                        $question = $question->selectQuestionById($questionId);
 
                         if ($question->QuestionType == 'Multiple Choice')
                         {
@@ -87,7 +88,7 @@ class Quiz extends \app\core\Controller
                                 if ($answer->insertAnswer() < 1)
                                 {
                                     // Delete Quiz
-                                    $this->delete(array($quiz->QuizId));
+                                    $this->delete(array($quizId));
                                     header('location:?error=There was an error creating an answer.');
                                     return;
                                 }
@@ -99,7 +100,7 @@ class Quiz extends \app\core\Controller
                             if ($index < 2)
                             {
                                 // Delete Quiz
-                                $this->delete(array($quiz->QuizId));
+                                $this->delete(array($quizId));
                                 header('location:?error=You need a minimum of 2 answers per question.');
                                 return;
                             }
@@ -117,7 +118,7 @@ class Quiz extends \app\core\Controller
                             if ($answer->insertAnswer() < 1)
                             {
                                 // Delete Quiz
-                                $this->delete(array($quiz->QuizId));
+                                $this->delete(array($quizId));
                                 header('location:?error=There was an error creating an answer.');
                                 return;
                             }
@@ -128,7 +129,7 @@ class Quiz extends \app\core\Controller
                     else
                     {
                         // Delete Quiz
-                        $this->delete(array($quiz->QuizId));
+                        $this->delete(array($quizId));
                         header('location:?error=There was an error parsing a question.');
                         return;
                     }
@@ -146,7 +147,7 @@ class Quiz extends \app\core\Controller
                 else
                 {
                     // Delete Quiz
-                    $this->delete(array($quiz->QuizId));
+                    $this->delete(array($quizId));
                     header('location:?error=You need a minimum of 1 question per quiz.');
                     return;
                 }
@@ -195,7 +196,15 @@ class Quiz extends \app\core\Controller
 
             else
             {
-                header('Refresh: 0');
+                if (str_contains($_SERVER['REQUEST_URI'], 'create'))
+                {
+                    header('Refresh: 0');
+                }
+
+                else
+                {
+                    header('location:/home');
+                }
             }
         }
 

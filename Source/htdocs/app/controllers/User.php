@@ -97,7 +97,7 @@ class User extends \app\core\Controller
         $quizzes = new \app\models\Quiz();
         $quizzes = $quizzes->selectQuizzesByUserId($id[0]);
 
-        $this->view('User/profile', ['userId' => $id[0], 'quizzes' => array($quizzes)]);
+        $this->view('User/profile', ['userId' => $id[0], 'quizzes' => $quizzes]);
     }
 
     #[\app\filters\Login]

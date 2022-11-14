@@ -204,3 +204,7 @@ option {
     width: 100%;
     font-size: var(--normal);
 }
+
+.add-que {
+    margin-bottom: 16px;
+}

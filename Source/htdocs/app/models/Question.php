@@ -4,6 +4,17 @@ namespace app\models;
 
 class Question extends \app\core\Model
 {
+    public function selectQuestionById($questionId)
+    {
+        $sql = 'SELECT * FROM Question WHERE QuestionId = :questionId';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['questionId' => $questionId]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Question');
+
+        return $statement->fetch();
+    }
+
     public function selectQuestionCountByQuizId($quizId)
     {
         $sql = 'SELECT COUNT(QuestionId) FROM Question WHERE QuizId = :quizId';
@@ -45,7 +56,7 @@ class Question extends \app\core\Model
         $statement->execute(['quizId' => $this->quizId, 'questionText' => $this->questionText, 'questionImage' => $this->questionImage,
             'questionHint' => $this->questionHint, 'questionType' => $this->questionType]);
 
-        return $statement->rowCount();
+        return self::$database->lastInsertId();
     }
 
     public function deleteQuestionsByQuizId($quizId)

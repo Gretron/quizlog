@@ -17,7 +17,7 @@ class Quiz extends \app\core\Model
 
     public function selectQuizzesByQuery($query)
     {
-        $sql = 'SELECT * FROM Quiz WHERE QuizName LIKE :query0 OR QuizDescription LIKE :query1 ORDER BY QuizId DESC';
+        $sql = 'SELECT * FROM Quiz WHERE QuizPrivacy > 0 AND (QuizName LIKE :query0 OR QuizDescription LIKE :query1) ORDER BY QuizId DESC';
 
         $statement = self::$database->prepare($sql);
         $statement->execute(['query0' => '%' . $query . '%', 'query1' => '%' . $query . '%']);
@@ -34,7 +34,7 @@ class Quiz extends \app\core\Model
         $statement->execute(['userId' => $userId]);
         $statement->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Quiz');
 
-        return $statement->fetch();
+        return $statement->fetchAll();
     }
 
     public function selectQuizById($quizId)
@@ -69,7 +69,7 @@ class Quiz extends \app\core\Model
             'quizDescription' => $this->quizDescription, 'quizPrivacy' => $this->quizPrivacy, 'quizTime' => $this->quizTime]);
         $statement->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Quiz');
 
-        return $statement->rowCount();
+        return self::$database->lastInsertId();
     }
 
     public function deleteQuiz($quizId)
