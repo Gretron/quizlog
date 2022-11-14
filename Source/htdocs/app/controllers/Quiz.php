@@ -87,7 +87,7 @@ class Quiz extends \app\core\Controller
                                 if ($answer->insertAnswer() < 1)
                                 {
                                     // Delete Quiz
-                                    $this->delete($quiz->QuizId);
+                                    $this->delete(array($quiz->QuizId));
                                     header('location:?error=There was an error creating an answer.');
                                     return;
                                 }
@@ -99,7 +99,7 @@ class Quiz extends \app\core\Controller
                             if ($index < 2)
                             {
                                 // Delete Quiz
-                                $this->delete($quiz->QuizId);
+                                $this->delete(array($quiz->QuizId));
                                 header('location:?error=You need a minimum of 2 answers per question.');
                                 return;
                             }
@@ -117,7 +117,7 @@ class Quiz extends \app\core\Controller
                             if ($answer->insertAnswer() < 1)
                             {
                                 // Delete Quiz
-                                $this->delete($quiz->QuizId);
+                                $this->delete(array($quiz->QuizId));
                                 header('location:?error=There was an error creating an answer.');
                                 return;
                             }
@@ -128,7 +128,7 @@ class Quiz extends \app\core\Controller
                     else
                     {
                         // Delete Quiz
-                        $this->delete($quiz->QuizId);
+                        $this->delete(array($quiz->QuizId));
                         header('location:?error=There was an error parsing a question.');
                         return;
                     }
@@ -146,7 +146,7 @@ class Quiz extends \app\core\Controller
                 else
                 {
                     // Delete Quiz
-                    $this->delete($quiz->QuizId);
+                    $this->delete(array($quiz->QuizId));
                     header('location:?error=You need a minimum of 1 question per quiz.');
                     return;
                 }
@@ -195,7 +195,7 @@ class Quiz extends \app\core\Controller
 
             else
             {
-                header('location:/home');
+                header('Refresh: 0');
             }
         }
 
