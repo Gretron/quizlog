@@ -1,0 +1,206 @@
+.radio {
+    width: 23px;
+    height: 18px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--dark);
+    border-radius: 50%;
+    display: flex;
+    margin: 0 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.radio:has(input:checked)
+{
+    border-color: var(--foreground);
+}
+
+.radio .checkmark {
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+    border-radius: 50%;
+    background-color: var(--accent);
+    opacity: 0;
+    transition: 0.1s;
+}
+
+.radio input {
+    display: none;
+}
+
+.radio input:checked + .checkmark {
+    opacity: 1;
+}
+
+.quiz-description div {
+    margin-bottom: 16px;
+}
+
+.quiz-description textarea {
+    width: 100%;
+    height: 64px;
+    margin-bottom: 16px;
+    padding: 8px;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: var(--dark);
+    border-width: 2px;
+    background: transparent;
+    transition: 0.3s;
+}
+
+.quiz-description textarea:focus {
+    outline: none;
+    border-color: var(--light);
+}
+
+.quiz-privacy {
+    margin-bottom: 16px;
+}
+
+.quiz-time {
+    margin-bottom: 16px;
+}
+
+.que {
+    margin: 32px 0;
+}
+
+.que:first-child {
+    margin-top: 0;
+}
+
+.que:last-child {
+    margin-bottom: 16px;
+}
+
+.que-txt, .que-img, .que-hint, .quiz-name, .quiz-banner, .quiz-privacy, .quiz-time {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.quiz-name label, .que-txt label, .que-img label, .quiz-privacy label, .quiz-time label {
+    white-space: nowrap;
+    margin-right: 16px;
+}
+
+.quiz-name .field, .quiz-privacy .field, .quiz-time .field, .que-txt .field {
+    width: 80%;
+    height: 48px;
+    padding: 0 16px;
+    appearance: none;
+}
+
+.que-img input[type='file'], .quiz-banner input[type='file'] {
+    width: 80%;
+    height: 48px;
+    display: flex;
+    border-radius: 8px;
+    border-style: solid;
+    border-color: var(--dark);
+    border-width: 2px;
+    padding: 0 8px;
+}
+
+.que-img ::-webkit-file-upload-button, .quiz-banner ::-webkit-file-upload-button {
+    margin-top: 7px;
+}
+
+::-webkit-file-upload-button {
+    background: var(--dark);
+    color: var(--foreground);
+    border-style: none;
+    border-radius: 4px;
+    padding: 4px 7px;
+    font-family: 'Primeform Pro', serif;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+::-webkit-file-upload-button:hover {
+    background: var(--foreground);
+    color: var(--background);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+}
+
+input[type="time"]::-webkit-datetime-edit-ampm-field {
+    display: none;
+}
+
+option {
+    background: var(--dark);
+}
+
+.que-hint label {
+    white-space: nowrap;
+    margin-right: 16px;
+}
+
+.que-hint .field {
+    width: 80%;
+    height: 48px;
+    padding: 0 16px;
+}
+
+.que .h-3 {
+    margin-bottom: 16px;
+}
+
+.que .h-4 {
+    margin-bottom: 16px;
+}
+
+.answers {
+    margin-bottom: 16px;
+}
+
+.ans-type {
+    width: 100%;
+    height: 48px;
+    margin-bottom: 16px;
+    padding: 0 16px;
+    appearance: none;
+}
+
+.ans {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.ans input[type='text'] {
+    height: 48px;
+    padding: 0 16px;
+    width: 100%;
+}
+
+.short-ans {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.short-ans div {
+    margin-bottom: 16px;
+}
+
+.short-ans textarea {
+    width: 100%;
+    height: 64px;
+    padding: 8px;
+}
+
+.ans:has(textarea) {
+    margin-bottom: 0;
+}
+
+.add-que, .del-que, .add-ans {
+    width: 100%;
+    font-size: var(--normal);
+}
