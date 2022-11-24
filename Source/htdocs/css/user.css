@@ -1,0 +1,48 @@
+.content .brand {
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 32px;
+}
+
+.content .brand svg {
+    width: 384px;
+}
+
+.user-form {
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+}
+
+.user-form .form-field:nth-last-of-type(2) {
+    margin-bottom: 32px;
+}
+
+.form-field label {
+    margin-bottom: 16px;
+}
+
+.form-field {
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-bottom: 16px;
+}
+
+.orange-button {
+    width: 100%;
+
+    margin-bottom: 16px;
+}
+
+.user-form div:nth-last-of-type(1) {
+    display: flex;
+    justify-content: center;
+}
+
+.user-form div:nth-last-of-type(1) span {
+    color: var(--grey);
+
+    margin-right: 4px;
+}

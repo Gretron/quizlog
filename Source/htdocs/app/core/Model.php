@@ -26,6 +26,23 @@ class Model
         }
     }
 
+    public function duplicateImage($file)
+    {
+        $file = 'img/' . $file;
+        $info = pathinfo($file);
+        $newFile = uniqid() . '.' . $info['extension'];
+
+        if (copy($file, 'img/' . $newFile))
+        {
+            return $newFile;
+        }
+
+        else
+        {
+            return '';
+        }
+    }
+
     public function isValid()
     {
         $reflection = new \ReflectionObject($this);

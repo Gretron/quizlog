@@ -1,28 +1,36 @@
 <html>
 <head>
-
+    <title>Quizlog: Search</title>
 </head>
 
 <body>
 <?php include_once('app/views/header.php'); ?>
 
-<link href="/css/cards.css" rel="stylesheet">
+<link href="/css/search.css" rel="stylesheet">
+<link href="/css/card.css" rel="stylesheet">
 
 <div class="content">
-    <div class="bot-32">
-        <form class="search-form">
-            <input class="field" type="text" name="q" placeholder="<?= isset($_GET['q']) ? $_GET['q'] : 'Search term...'; ?>">
-            <button class="btn-l">Search</button>
-        </form>
-    </div>
+    <form class="search-form">
+        <div class="form-field">
+            <input type="text" name="q" placeholder="<?= isset($_GET['q']) ? $_GET['q'] : 'Search term...'; ?>">
+        </div>
+
+        <button class="orange-button">Search</button>
+    </form>
 
     <?php if (isset($_GET['q'])): ?>
 
-    <div class="h-2 bot-32">Search Results for '<?= $_GET['q']; ?>':</div>
+    <h2>Search Results for '<?= $_GET['q']; ?>':</h2>
+
+        <?php if (count($data) < 1): ?>
+
+        <h3>No results found.</h3>
+
+        <?php endif; ?>
 
     <?php endif; ?>
 
-    <ul class="cards">
+    <div class="small-cards">
         <?php foreach($data as $quiz): ?>
 
         <?php
@@ -33,34 +41,38 @@
             $count = $count->selectQuestionCountByQuizId($quiz->QuizId);
         ?>
 
-        <li>
-            <div class="card-s box">
-                <object class="card-img" data="../../../img/pattern.png" type="image/png">
-                    <img src="">
-                </object>
+        <div class="small-card">
+            <object class="card-image" data="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>" type="image/png">
+                <img src="/img/pattern.png">
+            </object>
 
-                <div class="card-body pad-16">
-                    <div class="card-head">
-                        <div class="card-title h-4"><span class="h-4"><?= $quiz->QuizName; ?></span></div>
-                    </div>
+            <div class="card-body">
+                <h3><?= $quiz->QuizName; ?></h3>
 
-                    <div class="card-info">
-                        <span>by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $count; ?> Questions</span>
-                    </div>
+                <div class="card-information">
+                    by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $count; ?> Questions</span>
+                </div>
 
-                    <div class="card-desc">
-                        <p><?= $quiz->QuizDescription; ?></p>
-                    </div>
+                <div class="card-description">
+                    <?= $quiz->QuizDescription; ?>
+                </div>
 
-                    <div>
-                        <a class="btn-s" href="/quiz/details/<?= $quiz->QuizId; ?>">Take Quiz</a>
-                    </div>
+                <div class="card-button">
+                    <button class="orange-button" onclick="location.href='/quiz/details/<?= $quiz->QuizId; ?>'">Take</button>
+
+                    <?php if ($quiz->UserId == $_SESSION['UserId']): ?>
+
+                    <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'">Modify</button>
+
+                    <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'">Delete</button>
+
+                    <?php endif; ?>
                 </div>
             </div>
-        </li>
+        </div>
 
         <?php endforeach; ?>
-    </ul>
+    </div>
 </div>
 
 <?php include_once('app/views/footer.php'); ?>

@@ -1,0 +1,481 @@
+.big-card {
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+    margin-bottom: 32px;
+}
+
+.big-card .card-image {
+    width: 100%;
+    height: 128px;
+
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    object-fit: none;
+}
+
+.big-card h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+
+    margin-bottom: 16px;
+}
+
+.big-card h3:hover {
+    -webkit-line-clamp: unset;
+
+    overflow: visible;
+
+    z-index: 2;
+}
+
+.big-card .card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+
+    margin-bottom: 16px;
+}
+
+.big-card .card-description:hover {
+    -webkit-line-clamp: unset;
+
+    overflow: visible;
+
+    z-index: 2;
+}
+
+.big-card .card-information {
+    color: var(--grey);
+
+    margin-bottom: 16px;
+}
+
+.big-card .card-button {
+    display: flex;
+}
+
+.big-card .card-button button {
+    width: 100%;
+}
+
+.big-card .card-button button:nth-child(2), .big-card .card-button button:nth-child(3) {
+    margin-left: 16px;
+}
+
+.small-cards {
+    display: grid;
+    
+    grid-template-columns: repeat(3, 245px);
+    grid-gap: 16px;
+}
+
+.small-card {
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+}
+
+.small-card .card-image {
+    width: 100%;
+    height: 72px;
+
+    border-radius: 8px 8px 0 0;
+
+    object-fit: none;
+}
+
+.small-card .card-body {
+    display: flex;
+    flex-direction: column;
+
+    padding: 16px;
+}
+
+.small-card h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+
+    margin-bottom: 8px;
+}
+
+.small-card h3:hover {
+    -webkit-line-clamp: unset;
+
+    overflow: visible;
+
+    z-index: 2;
+}
+
+.small-card .card-information {
+    color: var(--grey);
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+
+    margin-bottom: 8px;
+
+    font-size: var(--small);
+}
+
+.small-card .card-information:hover {
+    -webkit-line-clamp: unset;
+
+    overflow: visible;
+
+    z-index: 2;
+}
+
+.small-card .card-information a {
+    font-size: var(--small);
+}
+
+.small-card .card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+
+    margin-bottom: 16px;
+}
+
+.small-card .card-description:hover {
+    -webkit-line-clamp: unset;
+
+    overflow: visible;
+
+    z-index: 2;
+}
+
+.small-card .card-button {
+    display: flex;
+}
+
+.small-card .card-button button {
+    width: 100%;
+    height: 32px;
+
+    font-size: var(--small);
+
+    padding: 0;
+}
+
+.small-card .card-button button:nth-child(2), .small-card .card-button button:nth-child(3) {
+    margin-left: 8px;
+}
+
+.detail-card {
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+}
+
+.detail-card .card-body {
+    padding: 16px;
+}
+
+.detail-card .card-image {
+    width: 100%;
+
+    border-radius: 8px 8px 0 0;
+
+    object-fit: fill;
+}
+
+.detail-card h2 {
+    overflow-wrap: break-word;
+
+    margin-bottom: 16px;
+}
+
+.detail-card .card-information {
+    color: var(--grey);
+
+    margin-bottom: 16px;
+}
+
+.detail-card .card-description {
+    overflow-wrap: break-word;
+
+    margin-bottom: 16px;
+}
+
+.detail-card .card-button {
+    display: flex;
+
+    width: 100%;
+}
+
+.detail-card .card-button button {
+    width: 100%;
+}
+
+.detail-card .card-button button:nth-child(2) {
+    margin-left: 16px;
+}
+
+.perform-card {
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+}
+
+.perform-card .card-image {
+    width: 100%;
+
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    object-fit: fill;
+}
+
+.perform-card h4 {
+    margin-bottom: 16px;
+}
+
+.perform-card .card-hint {
+    color: var(--grey);
+
+    font-style: italic;
+}
+
+.perform-card .card-answer:has(button) {
+    display: grid;
+
+    padding-top: 16px;
+    
+    grid-template-columns: repeat(2, calc(50% - 8px));
+    grid-gap: 16px;
+}
+
+.perform-card .card-answer:has(textarea) {
+    display: flex;
+
+    width: 100%;
+
+    padding-top: 0px;
+}
+
+.perform-card .card-answer .form-field {
+    width: 100%;
+
+    margin-top: 16px;
+}
+
+.perform-card .card-answer .form-field button {
+    width: 100%;
+
+    margin-top: 16px;
+}
+
+.result-card {
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+    margin-bottom: 32px;
+}
+
+.result-card .card-image {
+    width: 100%;
+    height: 256px;
+
+    border-radius: 8px 8px 0 0;
+
+    object-fit: none;
+}
+
+.result-card .card-body {
+    padding: 16px;
+}
+
+.result-card h2 {
+    overflow-wrap: break-word;
+
+    margin-bottom: 16px;
+}
+
+.result-card .card-score {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-card .card-score h3, .result-card .card-score h4 {
+    margin-bottom: 16px;
+}
+.result-card .card-score h4 {
+    color: var(--grey);
+}
+
+.result-card .card-score .score-bar {
+    background-color: var(--dark-grey);
+
+    height: 16px;
+
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.result-card .card-score .score-bar div {
+    background-color: var(--orange);
+
+    width: 2%;
+
+    border-radius: 8px;
+    height: 100%;
+}
+
+.result-card .card-information {
+    color: var(--grey);
+
+    margin-bottom: 16px;
+}
+
+.result-card .card-description {
+    overflow-wrap: break-word;
+
+    margin-bottom: 16px;
+}
+
+.result-card .card-button {
+    display: flex;
+
+    width: 100%;
+}
+
+.result-card .card-button button {
+    width: 100%;
+}
+
+.result-card .card-button button:nth-child(2) {
+    margin-left: 16px;
+}
+
+.choice-cards .banner {
+    max-width: 768px;
+
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+    margin-bottom: 32px;
+}
+
+.choice-cards .banner object {
+    width: 100%;
+    height: 300px;
+
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    object-fit: cover;
+}
+
+.choice-cards .card-score {
+    display: flex;
+    flex-direction: column;
+}
+
+.choice-cards .card-score h3, .choice-cards .card-score h4 {
+    margin-bottom: 16px;
+}
+.choice-cards .card-score h4 {
+    color: var(--grey);
+}
+
+.choice-cards .card-score .score-bar {
+    background-color: var(--dark-grey);
+
+    height: 16px;
+
+    border-radius: 8px;
+}
+
+.choice-cards .card-score .score-bar div {
+    background-color: var(--orange);
+
+    width: 2%;
+
+    border-radius: 8px;
+    height: 100%;
+}
+
+.choice-card {
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+    margin-bottom: 32px;
+}
+
+.choice-card h2 {
+    margin-bottom: 16px;
+}
+
+.choice-card .card-image {
+    width: 100%;
+
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    object-fit: fill;
+}
+
+.choice-card h4 {
+    margin-bottom: 16px;
+}
+
+.choice-card .correct-choice {
+    display: flex;
+    align-items: center;
+
+    border: 2px solid var(--green);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.choice-card .correct-choice svg {
+    margin-right: 16px;
+}
+
+.choice-card .correct-choice svg path {
+    fill: var(--green);
+}
+
+.choice-card .wrong-choice {
+    display: flex;
+    align-items: center;
+
+    border: 2px solid var(--red);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.choice-card .wrong-choice svg {
+    margin-right: 16px;
+}
+
+.choice-card .wrong-choice svg path {
+    fill: var(--red);
+}
+
+.choice-card .choice-options:has(.wrong-choice + .correct-choice) .wrong-choice {
+    margin-bottom: 16px;
+}

@@ -2,6 +2,8 @@
 
 Options -MultiViews
 
+Options -Indexes
+
 # Prevent Access to Directories and or Files
 
 RewriteCond %{REQUEST_FILENAME} !-d

@@ -9,6 +9,11 @@ class User extends \app\core\Controller
 {
     public function index()
     {
+        if (isset($_SESSION['UserId']))
+        {
+            header('location:/home');
+        }
+
         if (isset($_POST['submit']))
         {
             // Get Inputs
@@ -50,6 +55,11 @@ class User extends \app\core\Controller
 
     public function register()
     {
+        if (isset($_SESSION['UserId']))
+        {
+            header('location:/home');
+        }
+
         // If Submit Was Clicked...
         if (isset($_POST['submit']))
         {
@@ -92,15 +102,29 @@ class User extends \app\core\Controller
         $this->view('User/register');
     }
 
+    #[\app\filters\Login]
+    #[\app\filters\Perform]
     public function profile($id)
     {
-        $quizzes = new \app\models\Quiz();
-        $quizzes = $quizzes->selectQuizzesByUserId($id[0]);
+        $id = $id[0];
 
-        $this->view('User/profile', ['userId' => $id[0], 'quizzes' => $quizzes]);
+        $quizzes = new \app\models\Quiz();
+
+        if ($id == $_SESSION['UserId'])
+        {
+            $quizzes = $quizzes->selectQuizzesByUserId($id);
+        }
+        
+        else 
+        {
+            $quizzes = $quizzes->selectPublicQuizzesByUserId($id);
+        }
+
+        $this->view('User/profile', ['userId' => $id, 'quizzes' => $quizzes]);
     }
 
     #[\app\filters\Login]
+    #[\app\filters\Perform]
     public function logout()
     {
         session_destroy();

@@ -1,0 +1,16 @@
+.search-form {
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.search-form .form-field {
+    width: 100%;
+
+    margin-right: 16px;
+    margin-bottom: 32px;
+}
+
+h2 {
+    margin-bottom: 16px;
+}

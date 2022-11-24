@@ -1,210 +1,169 @@
-.radio {
-    width: 23px;
-    height: 18px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--dark);
-    border-radius: 50%;
+h2 {
+    padding-top: 16px;
+}
+
+h2, h3 {
+    margin-bottom: 16px;
+}
+
+.form-field {
+    margin-bottom: 16px;
+}
+
+form .form-field textarea {
+    width: 100% !important;
+}
+
+form .form-field input[name='quiz-name'],
+form .form-field input[name='quiz-banner'],
+form .form-field input[name='quiz-privacy'] {
+    width: 84%;
+}
+
+.form-field .form-time {
     display: flex;
-    margin: 0 8px;
-    justify-content: center;
     align-items: center;
+
+    width: 26%;
 }
 
-.radio:has(input:checked)
-{
-    border-color: var(--foreground);
-}
-
-.radio .checkmark {
-    width: calc(100% - 6px);
-    height: calc(100% - 6px);
-    border-radius: 50%;
-    background-color: var(--accent);
-    opacity: 0;
-    transition: 0.1s;
-}
-
-.radio input {
-    display: none;
-}
-
-.radio input:checked + .checkmark {
-    opacity: 1;
-}
-
-.quiz-description div {
-    margin-bottom: 16px;
-}
-
-.quiz-description textarea {
+.form-field .form-time input {
     width: 100%;
-    height: 64px;
-    margin-bottom: 16px;
-    padding: 8px;
-    border-style: solid;
-    border-radius: 8px;
-    border-color: var(--dark);
-    border-width: 2px;
+    height: 48px;
+
     background: transparent;
-    transition: 0.3s;
-}
-
-.quiz-description textarea:focus {
-    outline: none;
-    border-color: var(--light);
-}
-
-.quiz-privacy {
-    margin-bottom: 16px;
-}
-
-.quiz-time {
-    margin-bottom: 16px;
-}
-
-.que {
-    margin: 32px 0;
-}
-
-.que:first-child {
-    margin-top: 0;
-}
-
-.que:last-child {
-    margin-bottom: 16px;
-}
-
-.que-txt, .que-img, .que-hint, .quiz-name, .quiz-banner, .quiz-privacy, .quiz-time {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-}
-
-.quiz-name label, .que-txt label, .que-img label, .quiz-privacy label, .quiz-time label {
-    white-space: nowrap;
-    margin-right: 16px;
-}
-
-.quiz-name .field, .quiz-privacy .field, .quiz-time .field, .que-txt .field {
-    width: 80%;
-    height: 48px;
-    padding: 0 16px;
-    appearance: none;
-}
-
-.que-img input[type='file'], .quiz-banner input[type='file'] {
-    width: 80%;
-    height: 48px;
-    display: flex;
+    
+    padding: 8px 16px;
+    border: 2px solid var(--dark-grey);
     border-radius: 8px;
-    border-style: solid;
-    border-color: var(--dark);
-    border-width: 2px;
-    padding: 0 8px;
+
+    transition: 0.3s ease;
 }
 
-.que-img ::-webkit-file-upload-button, .quiz-banner ::-webkit-file-upload-button {
-    margin-top: 7px;
+.form-field .form-time input:hover {
+    outline: none;
+
+    border-color: var(--grey);
 }
 
-::-webkit-file-upload-button {
-    background: var(--dark);
-    color: var(--foreground);
-    border-style: none;
-    border-radius: 4px;
-    padding: 4px 7px;
-    font-family: 'Primeform Pro', serif;
-    cursor: pointer;
-    transition: 0.3s;
+.form-field .form-time label {
+    padding-left: 16px;
 }
 
-::-webkit-file-upload-button:hover {
-    background: var(--foreground);
-    color: var(--background);
-}
-
-input[type="time"]::-webkit-calendar-picker-indicator {
-    background: none;
-}
-
-input[type="time"]::-webkit-datetime-edit-ampm-field {
-    display: none;
-}
-
-option {
-    background: var(--dark);
-}
-
-.que-hint label {
-    white-space: nowrap;
-    margin-right: 16px;
-}
-
-.que-hint .field {
-    width: 80%;
-    height: 48px;
-    padding: 0 16px;
-}
-
-.que .h-3 {
+.questions {
     margin-bottom: 16px;
 }
 
-.que .h-4 {
+/* Question */
+
+.question {
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
     margin-bottom: 16px;
 }
 
-.answers {
-    margin-bottom: 16px;
+.question .form-field input {
+    width: 80% !important;
 }
 
-.ans-type {
-    width: 100%;
-    height: 48px;
-    margin-bottom: 16px;
-    padding: 0 16px;
-    appearance: none;
+.question .form-field select {
+    width: 100% !important;
 }
 
-.ans {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 16px;
-}
-
-.ans input[type='text'] {
-    height: 48px;
-    padding: 0 16px;
-    width: 100%;
-}
-
-.short-ans {
+.question .form-field:has(select) {
     flex-direction: column;
     align-items: flex-start;
 }
 
-.short-ans div {
+.question .form-field:has(select) label {
     margin-bottom: 16px;
 }
 
-.short-ans textarea {
-    width: 100%;
-    height: 64px;
-    padding: 8px;
-}
+.answers {
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
 
-.ans:has(textarea) {
-    margin-bottom: 0;
-}
-
-.add-que, .del-que, .add-ans {
-    width: 100%;
-    font-size: var(--normal);
-}
-
-.add-que {
     margin-bottom: 16px;
+}
+
+.answers .form-field:has(textarea), .answers textarea {
+    margin-bottom: 0px;
+}
+
+/* Answer */
+
+.answer {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+/* Answer Text Field */
+
+.answer input[type="text"] {
+    width: 100%;
+    height: 48px;
+
+    background: transparent;
+    
+    padding: 8px 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+
+    transition: 0.3s ease;
+}
+
+.answer input[type="text"]:focus {
+    outline: none;
+
+    border-color: var(--grey);
+}
+
+/* Answer Radio Button */
+
+.answer .radio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 24px;
+    height: 18px;
+
+    border: 2px solid var(--dark-grey);
+    border-radius: 50%;
+    margin: 0 8px;
+}
+
+.answer .radio:has(input:checked)
+{
+    border-color: var(--grey);
+}
+
+.answer .radio .checkmark {
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+
+    background-color: var(--orange);
+    opacity: 0;
+
+    border-radius: 50%;
+    
+    transition: 0.1s;
+}
+
+.answer .radio input {
+    display: none;
+}
+
+.answer .radio input:checked + .checkmark {
+    opacity: 1;
+}
+
+.orange-button {
+    width: 100%;
+
+    margin-top: 32px;
 }

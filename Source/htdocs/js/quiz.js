@@ -1,384 +1,218 @@
-window.onload = init()
-
-function init()
+function elementFromHtml(html)
 {
-    const questions = document.querySelector('.questions')
+    const template = document.createElement('template');
 
-    for (let i = 0; i < 3; i++)
-    {
-        createQuestion(questions)
-    }
+    template.innerHTML = html.trim();
+
+    return template.content.firstElementChild;
 }
 
-const addQuestion = document.querySelector('.add-que')
+const createButton = document.querySelector('.create-question')
 
-addQuestion.addEventListener('click', (event) =>
+createButton.addEventListener('click', (event) =>
 {
-    const questions = document.querySelector('.questions')
-
-    createQuestion(questions)
+    createQuestion();
 })
 
-// Create Question Using Questions Container
-function createQuestion(questions)
+function createQuestion()
 {
-    // Get Count of Existing Questions
-    let count = questions.querySelectorAll('.que').length;
+    var question = elementFromHtml(`
+    <div class="question">
+        <div class="form-field">
+            <label>Question Text*</label>
 
-    // Create Question
-    const id = 'q'.concat(count)
+            <input type="text" class="question-text" name="question[][text]" pattern="^.{8,}" required>
+        </div>
 
-    // Create Container
-    let container = document.createElement('div')
-    container.id = id
-    container.className = 'que box pad-16'
-    container.draggable = true
+        <div class="form-field">
+            <label>Question Image</label>
 
-    let hidden = document.createElement('input')
-    hidden.className = 'id'
-    hidden.type = 'hidden'
-    hidden.value = 'set'
-    hidden.name = id
+            <input type="file" class="question-image" name="question[][image]">
+        </div>
 
-    container.appendChild(hidden)
+        <div class="form-field">
+            <label>Question Hint</label>
 
-    // Create Question Text Field
-    let text = document.createElement('div')
-    text.className = 'que-txt'
+            <input type="text" class="question-hint" name="question[][hint]">
+        </div>
 
-    let textLabel = document.createElement('label')
-    textLabel.className = 'lbl-s'
-    textLabel.innerHTML = 'Question Text*'
+        <h3>Question Answers</h3>
 
-    let textInput = document.createElement('input')
-    textInput.className = 'field'
-    textInput.type = 'text'
-    textInput.name = id.concat('-txt')
-    textInput.required = true
+        <div class="form-field">
+            <label>Answer Type*</label>
 
-    text.appendChild(textLabel)
-    text.appendChild(textInput)
+            <select name="question[][type]" class="question-type" required>
+                <option value="Multiple Choice">Multiple Choice</option>
 
-    container.appendChild(text)
+                <option value="Short Answer">Short Answer</option>
+            </select>
+        </div>
 
-    // Create Question Image Field
-    let image = document.createElement('div')
-    image.className = 'que-img'
+        <div class="answers">
+            <button class="white-button add-answer" type="button">Add Answer</button>
+        </div>
 
-    let imageLabel = document.createElement('label')
-    imageLabel.className = 'lbl-s'
-    imageLabel.innerHTML = 'Question Image'
+        <button class="grey-button delete-question" type="button">Delete Question</button>
+    </div>
+    `);
+    
+    var questions = document.querySelector('.questions');
+    var count = questions.childElementCount;
 
-    let imageInput = document.createElement('input')
-    imageInput.type = 'file'
-    imageInput.name = id.concat('-img')
+    questions.appendChild(question);
 
-    image.appendChild(imageLabel)
-    image.appendChild(imageInput)
+    document.getElementsByName('question[][text]')[0].name = `question[${count}][text]`;
+    document.getElementsByName('question[][image]')[0].name = `question[${count}][image]`;
+    document.getElementsByName('question[][hint]')[0].name = `question[${count}][hint]`;
+    document.getElementsByName('question[][type]')[0].name = `question[${count}][type]`;
 
-    container.appendChild(image)
-
-    // Create Question Hint Field
-    let hint = document.createElement('div')
-    hint.className = 'que-hint'
-
-    let hintLabel = document.createElement('label')
-    hintLabel.className = 'lbl-s'
-    hintLabel.innerHTML = 'Question Hint:'
-
-    let hintInput = document.createElement('input')
-    hintInput.className = 'field'
-    hintInput.type = 'text'
-    hintInput.name = id.concat('-hint')
-
-    hint.appendChild(hintLabel)
-    hint.appendChild(hintInput)
-
-    container.appendChild(hint)
-
-    // Create Question Answers Heading
-    let heading = document.createElement('div')
-    heading.className = 'h-3'
-    heading.innerHTML = 'Question Answers'
-
-    container.appendChild(heading)
-
-    // Create Answers Area
-    let answersArea = document.createElement('div')
-
-    let typeLabel = document.createElement('div')
-    typeLabel.className = 'h-4'
-    typeLabel.innerHTML = 'Answers Type:'
-
-    let selectType = document.createElement('select')
-    selectType.name = id.concat('-type')
-    selectType.className = 'ans-type field'
-
-    let option0 = document.createElement('option')
-    option0.value = 'Multiple Choice'
-    option0.innerHTML = 'Multiple Choice'
-    option0.selected = true
-
-    let option1 = document.createElement('option')
-    option1.value = 'Short Answer'
-    option1.innerHTML = 'Short Answer'
-
+    var selectType = question.querySelector('.question-type');
     selectType.addEventListener('change', (event) =>
     {
-        // Get Question Id
-        const id = event.target.closest('.que').id
+        var answers = question.querySelector('.answers');
 
-        // Get Answers Container
-        var answers = event.target.parentNode.querySelector('.answers')
-
-        // Clear Child Elements
         answers.innerHTML = '';
 
-        // If Multiple Choice Was Selected...
-        if (event.target.value == "Multiple Choice")
+        if (selectType.value == 'Multiple Choice')
         {
-            // Create 3 Fields
             for (let i = 0; i < 3; i++)
             {
-                createAnswer(answers)
+                addAnswer(question);
             }
 
-            // Create Add Answer Button
-            let add = document.createElement('button')
-            add.className = 'add-ans btn-l'
-            add.type = 'button'
-            add.innerHTML = 'Add Answer'
-            add.addEventListener('click', (event) =>
+            var addButton = elementFromHtml(`<button class="white-button add-answer" type="button">Add Answer</button>`);
+            addButton.addEventListener('click', (event) =>
             {
-                const answers = event.target.closest('.answers')
+                addAnswer(question);
+            });
 
-                createAnswer(answers)
-            })
-
-            answers.appendChild(add)
+            answers.appendChild(addButton);
         }
 
-        // If Short Answer Was Selected...
-        else
+        else 
         {
-            let container = document.createElement('div')
-            container.className = 'ans short-ans'
+            const index = Array.from(document.querySelector('.questions').children).indexOf(question);
 
-            let label = document.createElement('div')
-            label.className = 'lbl-s'
-            label.innerHTML = 'Short Answers Keywords (Seperated by Comma ",")*'
+            var answerHeading = elementFromHtml(`
+            <h3>Short Answers Keywords (Seperated by Comma ",")*</h3>
+            `);
 
-            let textArea = document.createElement('textarea')
-            textArea.className = 'ans-txt field'
-            textArea.name = id.concat('-a0-txt')
-            textArea.required = true
+            var shortAnswer = elementFromHtml(`
+            <div class="form-field">
+                <textarea name="question[${index}][answer][text]"></textarea>
+            </div>
+            `);
 
-            container.appendChild(label)
-            container.appendChild(textArea)
-
-            answers.appendChild(container)
+            answers.appendChild(answerHeading);
+            answers.appendChild(shortAnswer);
         }
-    })
+    });
 
-    selectType.appendChild(option0)
-    selectType.appendChild(option1)
-
-    let answersBox = document.createElement('div')
-    answersBox.className = 'answers box pad-16'
-
-    // Add Add Answer Button
-    let addAnswer = document.createElement('button')
-    addAnswer.className = 'add-ans btn-l'
-    addAnswer.type = 'button'
-    addAnswer.innerHTML = 'Add Answer'
-    addAnswer.addEventListener('click', (event) =>
-    {
-        const answers = event.target.closest('.answers')
-
-        createAnswer(answers)
-    })
-
-    answersBox.appendChild(addAnswer)
-
-    // Add Components to Answer Area
-    answersArea.appendChild(typeLabel)
-    answersArea.appendChild(selectType)
-    answersArea.appendChild(answersBox)
-
-    // Add Answer Area to Question
-    container.appendChild(answersArea)
-
-    // Add Delete Question Button
-    let deleteQuestion = document.createElement('button')
-    deleteQuestion.className = 'del-que btn-d'
-    deleteQuestion.innerHTML = 'Delete Question'
-    deleteQuestion.addEventListener('click', (event) =>
-    {
-        const questions = event.target.closest('.questions')
-        event.target.closest('.que').remove()
-        calibrateQuestions(questions)
-    })
-
-    container.appendChild(deleteQuestion)
-
-    // Add Question to Questions
-    questions.appendChild(container)
-
-    // Add Answers to Answers Box
     for (let i = 0; i < 3; i++)
     {
-        createAnswer(answersBox)
+        addAnswer(question);
     }
+
+    var addButton = question.querySelector('.add-answer');
+    addButton.addEventListener('click', (event) =>
+    {
+        addAnswer(question);
+    });
+
+    var deleteButton = question.querySelector('.delete-question');
+    deleteButton.addEventListener('click', (event) =>
+    {
+        question.remove();
+        calibrateQuestions();
+    });
 }
 
-// Calibrate Question Ids Using Questions Container
-function calibrateQuestions(questions)
+function calibrateQuestions()
 {
-    // Get All Answers in Container
-    let items = questions.querySelectorAll('.que')
+    var questions = document.querySelectorAll('.question');
+    var count = 0;
 
-    // Start Count
-    let count = 0;
-
-    // For Each Question...
-    items.forEach(question =>
+    questions.forEach(question =>
     {
-        const id = 'q'.concat(count)
+        var text = question.querySelector('.question-text');
+        var image = question.querySelector('.question-image');
+        var hint = question.querySelector('.question-hint');
+        var type = question.querySelector('.question-type');
 
-        question.id = id
+        text.name = `question[${count}][text]`;
+        image.name = `question[${count}][image]`;
+        hint.name = `question[${count}][hint]`;
+        type.name = `question[${count}][type]`;
 
-        let identifier = question.querySelector('.id')
-        identifier.name = id
-
-        let text = question.querySelector('.que-txt')
-        text = text.querySelector('input');
-        text.name = id.concat('-txt')
-
-        let image = question.querySelector('.que-img')
-        image = image.querySelector('input');
-        image.name = id.concat('-img')
-
-        let hint = question.querySelector('.que-hint')
-        hint = hint.querySelector('input');
-        hint.name = id.concat('-hint')
-
-        let type = question.querySelector('.ans-type')
-        type.name = id.concat('-type')
-
-        calibrateAnswers(question.querySelector('.answers'))
+        calibrateAnswers(question);
 
         count++;
-    })
+    });
 }
 
-// Create Answer Using Answer Container
-function createAnswer(answers)
+function addAnswer(question) 
 {
-    // Get Question Id
-    const id = answers.closest('.que').id
+    const index = Array.from(document.querySelector('.questions').children).indexOf(question);
 
-    // Get the Add Answer Button
-    const add = answers.querySelector('.add-ans')
+    var answer = elementFromHtml(`
+    <div class="answer" draggable="true">
+        <input type="text" class="answer-text" name="question[][answer][][text]" required>
 
-    // Get Count of Existing Answers
-    const count = answers.querySelectorAll('.ans').length
+        <label class="radio">
+            <input type="radio" class="answer-radio" name="question[][correct]" required>
 
-    if (count >= 6)
-        return;
+            <div class="checkmark"></div>
+        </label>
 
-    // Create Answer
-    let container = document.createElement('div')
-    container.className = 'ans'
-    container.draggable = true
+        <button class="grey-button delete-answer" type="button">Delete</button>
+    </div>
+    `);
 
-    let hidden = document.createElement('input')
-    hidden.type = 'hidden'
-    hidden.value = 'set'
-    hidden.name = id.concat('-a', count)
+    var answers = question.querySelector('.answers');
+    var addButton = answers.querySelector('.add-answer');
 
-    let text = document.createElement('input')
-    text.className = 'ans-txt field'
-    text.type = 'text'
-    text.name = id.concat('-a', count, '-txt')
-    text.required = true
+    const count = answers.querySelectorAll('.answer').length;
 
-    let radioContainer = document.createElement('label')
-    radioContainer.className = 'radio'
+    answers.insertBefore(answer, addButton);
 
-    let radio = document.createElement('input')
-    radio.className = 'ans-c'
-    radio.type = 'radio'
-    radio.name = id.concat('-c')
-    radio.value = 'a'.concat(count)
-    radio.required = true
+    document.getElementsByName('question[][answer][][text]')[0].name = `question[${index}][answer][${count}][text]`;
+    document.getElementsByName('question[][correct]')[0].value = count;
+    document.getElementsByName('question[][correct]')[0].name = `question[${index}][correct]`;
 
-    let checkmark = document.createElement('span')
-    checkmark.className = 'checkmark'
-
-    radioContainer.appendChild(radio)
-    radioContainer.appendChild(checkmark)
-
-    let button = document.createElement('button')
-    button.className = 'del-ans btn-d'
-    button.innerHTML = 'Delete'
-    button.addEventListener('click', (event) =>
+    var deleteButton = answer.querySelector('.delete-answer');
+    deleteButton.addEventListener('click', (event) =>
     {
-        const answers = event.target.closest('.answers')
-        event.target.closest('.ans').remove()
-        calibrateAnswers(answers)
-    })
-
-    container.appendChild(hidden)
-    container.appendChild(text)
-    container.appendChild(radioContainer)
-    container.appendChild(button)
-
-    answers.insertBefore(container, add)
-
-    if (count == 5)
-        add.disabled = true
+        answer.remove();
+        calibrateAnswers(question);
+    });
 }
 
-// Calibrate Answer Ids Using Answers Container
-function calibrateAnswers(answers)
+function calibrateAnswers(question)
 {
-    // Get All Answers in Container
-    let items = answers.querySelectorAll('.ans')
-
-    // Get Question Id
-    const id = answers.closest('.que').id
-
-    const type = answers.closest('.que').querySelector('.ans-type').value;
+    const index = Array.from(document.querySelector('.questions').children).indexOf(question);
+    var answers = question.querySelectorAll('.answer');
+    var type = question.querySelector('select').value;
 
     if (type == 'Multiple Choice')
     {
-        // Start Count
-        let count = 0;
+        var count = 0;
 
-        // For Each Answer...
-        items.forEach(answer =>
+        answers.forEach(answer => 
         {
-            let hidden = answer.querySelector('input[type="hidden"]')
-            hidden.name = id.concat('-a', count)
+            var text = answer.querySelector('.answer-text');
+            var radio = answer.querySelector('.answer-radio');
 
-            let text = answer.querySelector('.ans-txt')
-            text.name = id.concat('-a', count, '-txt')
+            text.name = `question[${index}][answer][${count}][text]`;
+            radio.name = `question[${index}][correct]`;
+            radio.value = count;
 
-            let radio = answer.querySelector('.ans-c')
-            radio.name = id.concat('-c')
-            radio.value = 'a'.concat(count)
-
-            // Increment Count
             count++;
-
-            console.log(answer)
-        })
+        });
     }
 
-    else
+    else 
     {
-        let text = answers.closest('.que').querySelector('.ans-txt')
-        text.name = id.concat('-a0', '-txt')
+
     }
 }
 

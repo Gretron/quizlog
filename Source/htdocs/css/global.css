@@ -1,0 +1,345 @@
+:root {
+    --orange: #F4793C;
+    --green: #70E622;
+    --red: #EB2424;
+    --black: #202020;
+    --dark-grey: #303030;
+    --grey: #9C9890;
+    --white: #E0DCD5;
+
+    --smaller: 8pt;
+    --small: 10pt;
+    --normal: 12pt;
+    --big: 14pt;
+    --bigger: 18pt;
+}
+
+@font-face {
+    font-family: 'Primeform Pro';
+    font-weight: normal;
+
+    src: url('fonts/PrimeformPro-SemiBold.otf');
+}
+
+@font-face {
+    font-family: 'Primeform Pro';
+    font-weight: bold;
+
+    src: url('fonts/PrimeformPro-Bold.otf');
+}
+
+* {
+    color: var(--white);
+
+    font-family: 'Primeform Pro', serif;
+    font-size: var(--normal);
+    font-weight: normal;
+    letter-spacing: 0.5px;
+
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: var(--black);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 32px 0;
+    border-bottom: 2px solid var(--dark-grey);
+    margin: 0 32px;
+}
+
+header .brand svg {
+    height: 24px;
+
+    cursor: pointer;
+}
+
+header nav a {
+    padding: 0 2vw;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown button {
+    background: none;
+
+    border: none;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.dropdown button:hover
+{
+    color: var(--orange);
+}
+
+.dropdown div {
+    background: var(--dark-grey);
+
+    position: absolute;
+    left: -1rem;
+    top: calc(100% + .25rem);
+
+    padding: 16px;
+    border-radius: 8px;
+
+    opacity: 0;
+}
+
+.dropdown > button:focus + div {
+    opacity: 1;
+}
+
+.nav-link
+{
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.nav-link:hover
+{
+    color: var(--orange);
+}
+
+.content {
+    max-width: 768px;
+
+    margin: 64px auto;
+}
+
+.error {
+    color: var(--orange);
+    background: transparent;
+
+    padding: 16px;
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 3em;
+
+    margin-bottom: 32px;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.25em;
+}
+
+/* Form Fields */
+
+.form-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-field label {
+    margin-right: 16px;
+
+    white-space: nowrap;
+}
+
+.form-field input[type="text"], 
+.form-field input[type="password"],
+.form-field select, 
+.form-field input[type="time"],
+.form-field textarea {
+    width: 100%;
+
+    background: transparent;
+    
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+
+    transition: 0.3s ease;
+}
+
+.form-field input[type="text"], 
+.form-field input[type="password"],
+.form-field select,
+.form-field input[type="time"] {
+    height: 48px;
+
+    padding: 8px 16px;
+}
+
+.form-field input[type="text"]:focus, 
+.form-field input[type="password"]:focus, 
+.form-field select:focus,
+.form-field input[type="time"]:focus,
+.form-field textarea:focus {
+    outline: none;
+
+    border-color: var(--grey);
+}
+
+.form-field select {
+    appearance: none;
+}
+
+.form-field select option {
+    background: var(--dark-grey);
+}
+
+.form-field:has(textarea) label {
+    margin-bottom: 16px;
+}
+
+.form-field:has(textarea) {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-field textarea {
+    height: 64px;
+
+    padding: 8px 12px;
+}
+
+.form-field textarea::-webkit-scrollbar {
+    width: 0;
+}
+
+.form-field input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+}
+
+.form-field input[type="time"]::-webkit-datetime-edit-ampm-field {
+    display: none;
+}
+
+.form-field input[type="file"] {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 48px;
+
+    padding: 0 8px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+}
+
+.form-field input[type="file"]::-webkit-file-upload-button {
+    margin-top: 7px;
+
+    color: var(--white);
+    background: var(--dark-grey);
+
+    padding: 4px 8px;
+    border-style: none;
+    border-radius: 8px;
+    
+    font-family: 'Primeform Pro', serif;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.form-field input[type="file"]::-webkit-file-upload-button:hover {
+    color: var(--black);
+    background: var(--white);
+}
+
+/* Buttons */
+
+.selected-button {
+    border: 2px solid rgba(255, 255, 255, .5) !important;
+}
+
+.orange-button {
+    color: white;
+    background: var(--orange);
+
+    height: 48px;
+
+    padding: 0 32px;
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.grey-button {
+    color: var(--white);
+    background: var(--dark-grey);
+
+    height: 48px;
+
+    padding: 0 32px;
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.white-button {
+    color: var(--black);
+    background: var(--white);
+
+    height: 48px;
+
+    padding: 0 32px;
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.grey-button:disabled {
+    color: var(--white) !important;
+    background-color: var(--dark-grey) !important;
+
+    cursor: not-allowed;
+
+    opacity: 0.5;
+}
+
+.orange-button:hover, 
+.grey-button:hover {
+    color: var(--black);
+    background: var(--white);
+}
+
+.white-button:hover {
+    color: white;
+    background: var(--orange);
+}

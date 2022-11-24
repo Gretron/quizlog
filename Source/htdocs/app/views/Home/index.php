@@ -1,19 +1,25 @@
 <html>
 <head>
-
+    <title>Quizlog: Home</title>
 </head>
 
 <body>
 <?php include_once('app/views/header.php'); ?>
 
-<link href="/css/cards.css" rel="stylesheet">
+<link href="/css/card.css" rel="stylesheet">
 
 <div class="content">
-    <div class="h-1 bot-32">Home</div>
+    <h1>Home</h1>
 
     <?php if (isset($_GET['error'])): ?>
 
         <div class="error"><?= $_GET['error']; ?></div>
+
+    <?php endif; ?>
+
+    <?php if (count($data) < 1): ?>
+
+    <h2>No quizzes found.</h2>
 
     <?php endif; ?>
 
@@ -23,37 +29,40 @@
         $user = new \app\models\User();
         $user = $user->selectUserById($quiz->UserId);
 
-        $date = explode(':', $quiz->QuizTime);
-        $hour = $date[0] == '00' ? '' : $date[0] . 'hr ';
-        $min = $date[1] == '00' ? '' : $date[1] . 'min ';
-        $sec = $date[2] == '00' ? '0sec' : $date[2] . 'sec';
-        $date = $hour . $min . $sec;
+        $time = explode(':', $quiz->QuizTime);
+        $hour = $time[0] == '00' ? '' : $time[0] . 'hr ';
+        $min = $time[1] == '00' ? '' : $time[1] . 'min ';
+        $sec = $time[2] == '00' ? '0sec' : $time[2] . 'sec';
+        $time = $hour . $min . $sec;
 
         $count = new \app\models\Question();
         $count = $count->selectQuestionCountByQuizId($quiz->QuizId);
     ?>
 
-    <div class="card-l box pad-16 bot-32">
-        <object class="card-img" data="../../../img/pattern.png" type="image/png">
-            <img src="">
+    <div class="big-card">
+        <object class="card-image" data="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>" type="image/png">
+            <img src="/img/pattern.png">
         </object>
 
-        <div class="card-head">
-            <div class="card-title h-3"><span class="h-3"><?= $quiz->QuizName; ?></span></div>
+        <h3><?= $quiz->QuizName; ?></h3>
+
+        <div class="card-description">
+            <?= $quiz->QuizDescription; ?>
         </div>
 
-        <div class="card-desc">
-            <p><?= $quiz->QuizDescription; ?></p>
+        <div class="card-information">
+            by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $time; ?> • <?= $count; ?> Questions</span>
         </div>
 
-        <div class="card-info">
-            <span>by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $date; ?> • <?= $count; ?> Questions</span>
-        </div>
+        <div class="card-button">
+            <button class="orange-button" onclick="location.href='/quiz/details/<?= $quiz->QuizId; ?>'">Take Quiz</button>
 
-        <div class="card-btns">
-            <a class="btn-l">Take Quiz</a>
             <?php if ($quiz->UserId == $_SESSION['UserId']): ?>
-                <a class="btn-w" href="/quiz/delete/<?= $quiz->QuizId; ?>">Delete Quiz</a>
+
+            <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'">Modify Quiz</button>
+
+            <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'">Delete Quiz</button>
+
             <?php endif; ?>
         </div>
     </div>

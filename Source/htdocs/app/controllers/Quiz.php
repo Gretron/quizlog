@@ -7,12 +7,18 @@ namespace app\controllers;
  */
 class Quiz extends \app\core\Controller
 {
+    #[\app\filters\Login]
+    #[\app\filters\Perform]
     public function index()
     {
-        $this->view('Quiz/index');
+        $quizzes = new \app\models\Quiz();
+        $quizzes = $quizzes->selectQuizzesByUserId($_SESSION['UserId']);
+
+        $this->view('Quiz/index', ['quizzes' => $quizzes]);
     }
 
     #[\app\filters\Login]
+    #[\app\filters\Perform]
     public function create()
     {
         if (isset($_POST['submit']))
@@ -20,135 +26,118 @@ class Quiz extends \app\core\Controller
             $quiz = new \app\models\Quiz();
             $quiz->userId = $_SESSION['UserId'];
             $quiz->quizName = $_POST['quiz-name'];
-            $quiz->quizBanner = $_FILES['quiz-banner'];
+            $quiz->quizBanner = $this->saveImage($_FILES['quiz-banner']['tmp_name']);
             $quiz->quizDescription = $_POST['quiz-description'];
-            $quiz->quizPrivacy = $_POST['quiz-privacy'];
+            $quiz->quizPrivacy = $_POST['quiz-privacy'] == 0 ? 0 : 1;
 
-            $time = \DateTime::createFromFormat("h:m:s", $_POST['quiz-time']);
-
-            if (!$time || ($time->format('H') > 3 && $time->format('m') > 0))
-            {
-                header('location:?error=Inputted time is invalid.');
-                return;
-            }
-
-            $quiz->quizTime = $_POST['quiz-time'];
+            $quiz->quizTime = date('h:m:s', strtotime("{$_POST['quiz-hour']}:{$_POST['quiz-minute']}:{$_POST['quiz-second']}"));
 
             $quizId = $quiz->insertQuiz();
 
             // If Quiz Successfully Inserted...
             if ($quizId > 0)
             {
-                // Start Count
-                $count = 0;
-
-                while (isset($_POST['q'. $count]))
+                // Make Sure Questions Exist & There Are More Than 0 Questions
+                if (isset($_POST['question']) && is_array($_POST['question']) && count($_POST['question']) > 0)
                 {
-                    $qId = 'q' . $count;
+                    $questions = $_POST['question'];
+                    $questionCount = 0;
 
-                    $question = new \app\models\Question();
-                    $question->quizId = $quizId;
-                    $question->questionText = $_POST[$qId . '-txt'];
-                    $question->questionImage = $_FILES[$qId . '-img'];
-                    $question->questionHint = $_POST[$qId . '-hint'];
-                    $question->questionType = $_POST[$qId . '-type'];
-
-                    $questionId = $question->insertQuestion();
-
-                    if ($questionId > 0)
+                    foreach ($questions as $question)
                     {
-                        // Get Inserted Question
-                        $question = $question->selectQuestionById($questionId);
+                        $newQuestion = new \app\models\Question();
+                        $newQuestion->quizId = $quizId;
+                        $newQuestion->questionText = $question['text'];
+                        $newQuestion->questionImage = $this->saveImage($_FILES['question']['tmp_name'][$questionCount]['image']);
+                        $newQuestion->questionHint = $question['hint'];
+                        $newQuestion->questionType = $question['type'];
 
-                        if ($question->QuestionType == 'Multiple Choice')
+                        $questionId = $newQuestion->insertQuestion();
+
+                        // If Question Successfully Inserted...
+                        if ($questionId > 0)
                         {
-                            // Start Answer Count
-                            $index = 0;
+                            $answers = $question['answer'];
+                            $answerCount = 0;
 
-                            while (isset($_POST[$qId . '-a' . $index]))
+                            if ($question['type'] == 'Multiple Choice')
                             {
-                                // If We've Inserted 6 Answers...
-                                if ($index > 5)
-                                    break;
-
-                                $aId = 'a' . $index;
-
-                                $answer = new \app\models\Answer();
-                                $answer->questionId = $question->QuestionId;
-                                $answer->answerText = $_POST[$qId . '-' . $aId . '-txt'];
-
-                                // Check If Answer Is Correct
-                                if ($_POST[$qId . '-c'] == $aId)
-                                    $answer->answerCorrect = 1;
-
-                                else
-                                    $answer->answerCorrect = 0;
-
-                                // Error Creating Answer
-                                if ($answer->insertAnswer() < 1)
+                                if (count($answers) < 2)
                                 {
-                                    // Delete Quiz
-                                    $this->delete(array($quizId));
-                                    header('location:?error=There was an error creating an answer.');
+                                    $quiz->deleteQuizById($quizId);
+
+                                    header('location:?error=You need atleast 2 answers per multiple choice question.');
                                     return;
                                 }
 
-                                $index++;
+                                if (count($answers) - 1 < $question['correct'] || $question['correct'] < 0)
+                                {
+                                    $quiz->deleteQuizById($quizId);
+
+                                    header('location:?error=1 answer must be correct in a multiple choice.');
+                                    return;
+                                }
+
+                                foreach ($answers as $answer)
+                                {
+                                    $newAnswer = new \app\models\Answer();
+                                    $newAnswer->questionId = $questionId;
+                                    $newAnswer->answerText = $answer['text'];
+                                    $newAnswer->answerCorrect = $question['correct'] == $answerCount ? 1 : 0;
+                                    
+                                    $answerId = $newAnswer->insertAnswer();
+
+                                    // If Answer Unsuccesfully Inserted...
+                                    if ($answerId < 0)
+                                    {
+                                        $quiz->deleteQuizById($quizId);
+
+                                        header('location:?error=There was an error adding an answer.');
+                                        return;
+                                    }
+
+                                    $answerCount++;
+                                }
                             }
 
-                            // Not Enough Answers
-                            if ($index < 2)
+                            else 
                             {
-                                // Delete Quiz
-                                $this->delete(array($quizId));
-                                header('location:?error=You need a minimum of 2 answers per question.');
-                                return;
+                                $newAnswer = new \app\models\Answer();
+                                $newAnswer->questionId = $questionId;
+                                $newAnswer->answerText = $answers['text'];
+                                $newAnswer->answerCorrect = 1;
+
+                                $answerId = $newAnswer->insertAnswer();
+
+                                // If Answer Unsuccesfully Inserted...
+                                if ($answerId < 1)
+                                {
+                                    $quiz->deleteQuizById($quizId);
+
+                                    header('location:?error=There was an error adding an answer.');
+                                    return;
+                                }
                             }
                         }
 
-                        // If Short Answer
                         else
                         {
-                            $answer = new \app\models\Answer();
-                            $answer->questionId = $question->QuestionId;
-                            $answer->answerText = $_POST[$qId . '-a0-txt'];
-                            $answer->answerCorrect = 1;
-
-                            // Error Creating Answer
-                            if ($answer->insertAnswer() < 1)
-                            {
-                                // Delete Quiz
-                                $this->delete(array($quizId));
-                                header('location:?error=There was an error creating an answer.');
-                                return;
-                            }
+                            header('location:?error=There was an error creating a question.');
+                            return;
                         }
+
+                        $questionCount++;
                     }
 
-                    // Error Creating Question
-                    else
-                    {
-                        // Delete Quiz
-                        $this->delete(array($quizId));
-                        header('location:?error=There was an error parsing a question.');
-                        return;
-                    }
-
-                    $count++;
+                    header('location:/quiz/details/' . $quizId);
+                    return;
                 }
 
-                // If Everything Is Fine, Bring User to Quiz List
-                if ($count > 0)
-                {
-                    header('location:/quiz');
-                }
-
-                // Not Enough Questions
                 else
                 {
-                    // Delete Quiz
-                    $this->delete(array($quizId));
-                    header('location:?error=You need a minimum of 1 question per quiz.');
+                    $quiz->deleteQuizById($quizId);
+
+                    header('location:?error=You need atleast 1 question per quiz.');
                     return;
                 }
             }
@@ -164,6 +153,43 @@ class Quiz extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\Perform]
+    public function modify($id) 
+    {
+        $id = $id[0];
+
+        $quiz = (new \app\models\Quiz())->selectQuizById($id);
+
+        if ($quiz->UserId != $_SESSION['UserId'])
+        {
+            header('location:/quiz?error=You cannot modify a quiz you haven\'t created.');
+            return;
+        }
+
+        $questions = (new \app\models\Question())->selectQuestionsByQuizId($quiz->QuizId);
+
+        foreach($questions as &$question)
+        {
+            $question->Answers = (new \app\models\Answer())->selectAnswersByQuestionId($question->QuestionId);
+        }
+
+        $this->view('Quiz/modify', ['quiz' => $quiz, 'questions' => $questions]);
+    }
+
+    #[\app\filters\Login]
+    #[\app\filters\Perform]
+    public function details($id) 
+    {
+        $id = $id[0];
+
+        $quiz = new \app\models\Quiz();
+        $quiz = $quiz->selectQuizById($id);
+
+        $this->view('Quiz/details', ['quiz' => $quiz]);
+    }
+
+    #[\app\filters\Login]
+    #[\app\filters\Perform]
     public function delete($id)
     {
         $id = $id[0];
@@ -173,44 +199,23 @@ class Quiz extends \app\core\Controller
 
         if ($_SESSION['UserId'] == $quiz->UserId)
         {
-            $questions = new \app\models\Question();
-            $questions = $questions->selectQuestionsByQuizId($id);
-
-            var_dump($questions);
-
-            foreach ($questions as $question)
+            if ($quiz->deleteQuizById($id) > 0)
             {
-                $answers = new \app\models\Answer();
-                $answers->deleteAnswersByQuestionId($question->QuestionId);
-            }
-
-            $question = new \app\models\Question();
-            $question->deleteQuestionsByQuizId($id);
-
-            $quiz = new \app\models\Quiz();
-
-            if ($quiz->deleteQuiz($id) < 1)
-            {
-                header('location:/home?error=There was an error deleting a quiz.');
+                header('location:/quiz?error=Succesfully deleted quiz \''. $quiz->QuizName . '\'.');
+                return;
             }
 
             else
             {
-                if (str_contains($_SERVER['REQUEST_URI'], 'create'))
-                {
-                    header('Refresh: 0');
-                }
-
-                else
-                {
-                    header('location:/home');
-                }
+                header('location:/quiz?error=There was an error while deleting\''. $quiz->QuizName . '\'.');
+                return;
             }
         }
 
         else
         {
-            header('location:/home?error=You cannot delete a quiz you haven\'t created.' . $quiz->QuizName);
+            header('location:/quiz?error=You cannot delete a quiz you haven\'t created.');
+            return;
         }
     }
 }

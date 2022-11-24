@@ -6,7 +6,7 @@
 <body>
 <?php include_once('app/views/header.php'); ?>
 
-<link href="/css/cards.css" rel="stylesheet">
+<link href="/css/card.css" rel="stylesheet">
 
 <div class="content">
     <?php
@@ -16,50 +16,60 @@
 
     ?>
 
-    <div class="h-1 bot-32"><?= $user->Username; ?></div>
+    <h1><?= $user->Username; ?></h1>
 
-    <ul class="cards">
-        <?php foreach($data['quizzes'] as $quiz): ?>
+    <?php if (count($data['quizzes']) < 1): ?>
 
-            <?php
+    <h2>No quizzes found.</h2>
 
-            // If There Isn't A Quiz, Continue...
-            if (!$quiz)
-                continue;
+    <?php endif; ?>
 
-            $count = new \app\models\Question();
-            $count = $count->selectQuestionCountByQuizId($quiz->QuizId);
+    <div class="small-cards">
+    <?php foreach($data['quizzes'] as $quiz): ?>
 
-            ?>
+        <?php
 
-            <li>
-                <div class="card-s box">
-                    <object class="card-img" data="../../../img/pattern.png" type="image/png">
-                        <img src="">
-                    </object>
+        // If There Isn't A Quiz, Continue...
+        if (!$quiz)
+            continue;
 
-                    <div class="card-body pad-16">
-                        <div class="card-head">
-                            <div class="card-title h-4"><span class="h-4"><?= $quiz->QuizName; ?></span></div>
-                        </div>
+        $count = new \app\models\Question();
+        $count = $count->selectQuestionCountByQuizId($quiz->QuizId);
 
-                        <div class="card-info">
-                            <span>by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $count; ?> Questions</span>
-                        </div>
+        ?>
 
-                        <div class="card-desc">
-                            <p><?= $quiz->QuizDescription; ?></p>
-                        </div>
+        <div class="small-card">
+            <object class="card-image" data="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>" type="image/png">
+                <img src="/img/pattern.png">
+            </object>
 
-                        <div>
-                            <a class="btn-s" href="/quiz/details/<?= $quiz->QuizId; ?>">Take Quiz</a>
-                        </div>
-                    </div>
+            <div class="card-body">
+                <h3><?= $quiz->QuizName; ?></h3>
+
+                <div class="card-information">
+                    by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $count; ?> Questions</span>
                 </div>
-            </li>
 
-        <?php endforeach; ?>
-    </ul>
+                <div class="card-description">
+                    <?= $quiz->QuizDescription; ?>
+                </div>
+
+                <div class="card-button">
+                    <button class="orange-button" onclick="location.href='/quiz/details/<?= $quiz->QuizId; ?>'">Take</button>
+
+                    <?php if ($quiz->UserId == $_SESSION['UserId']): ?>
+
+                    <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'">Modify</button>
+
+                    <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'">Delete</button>
+
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+    <?php endforeach; ?>
+    </div>
 </div>
 
 <?php include_once('app/views/footer.php'); ?>

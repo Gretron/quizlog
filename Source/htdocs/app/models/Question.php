@@ -4,6 +4,12 @@ namespace app\models;
 
 class Question extends \app\core\Model
 {
+    #[\app\validators\QuestionText]
+    public $questionText;
+
+    #[\app\validators\QuestionType]
+    public $questionType;
+
     public function selectQuestionById($questionId)
     {
         $sql = 'SELECT * FROM Question WHERE QuestionId = :questionId';
@@ -59,8 +65,67 @@ class Question extends \app\core\Model
         return self::$database->lastInsertId();
     }
 
+    public function updateQuestionImageById($questionId)
+    {
+        $question = $this->selectQuestionById($questionId);
+        $newImage = $this->duplicateImage($question->QuestionImage);
+
+        $sql = 'UPDATE Question SET QuestionImage = :questionImage WHERE QuestionId = :questionId';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['questionImage' => $newImage, 'questionId' => $questionId]);
+
+        return $statement->rowCount();
+    }
+
+    public function duplicateQuestionsByQuizId($newQuizId, $oldQuizId)
+    {
+        $sql = 'INSERT INTO Question (QuizId, QuestionText, QuestionImage, QuestionHint, QuestionType) 
+                SELECT :newQuizId, QuestionText, QuestionImage, QuestionHint, QuestionType
+                FROM Question WHERE QuizId = :oldQuizId';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['newQuizId' => $newQuizId, 'oldQuizId' => $oldQuizId]);
+
+        // If Successfully Duplicated Questions
+        if ($statement->rowCount() > 0)
+        {
+            $newQuestions = $this->selectQuestionsByQuizId($newQuizId);
+            $oldQuestions = $this->selectQuestionsByQuizId($oldQuizId);
+
+            for ($i = 0; $i < count($newQuestions); $i++)
+            {
+                $this->updateQuestionImageById($newQuestions[$i]->QuestionId);
+
+                $answer = new \app\models\Answer();
+                $answer->duplicateAnswersByQuestionId($newQuestions[$i]->QuestionId, $oldQuestions[$i]->QuestionId);
+            }
+        }
+
+        else
+        {
+            $quiz = new \app\models\Quiz();
+            $quiz->deleteQuizById($newQuizId);
+        }
+
+        return $statement->rowCount();
+    }
+
     public function deleteQuestionsByQuizId($quizId)
     {
+        $questions = $this->selectQuestionsByQuizId($quizId);
+
+        foreach($questions as $question)
+        {
+            if (!empty($question->QuestionImage))
+            {
+                unlink('img/' . $question->QuestionImage);
+            }
+
+            $answers = new \app\models\Answer();
+            $answers->deleteAnswersByQuestionId($question->QuestionId);
+        }
+
         $sql = 'DELETE FROM Question WHERE QuizId = :quizId';
 
         $statement = self::$database->prepare($sql);
