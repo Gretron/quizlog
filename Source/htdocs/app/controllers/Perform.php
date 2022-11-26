@@ -122,8 +122,15 @@ class Perform extends \app\core\Controller
     {    
         $id = $id[0];
 
-        $quiz = new \app\models\Quiz();
-        $quizId = $quiz->duplicateQuizById($id);
+        $quiz = (new \app\models\Quiz())->selectQuizById($id);
+
+        if ($quiz->UserId != $_SESSION['UserId'] && $quiz->QuizPrivacy != '1')
+        {
+            header('location:/home?error=You cannot take a quiz that is private.');
+            return;
+        }
+        
+        $quizId = (new \app\models\Quiz())->duplicateQuizById($id);
 
         // If Quiz Was Successfully Duplicated
         if ($quizId > 0)
@@ -177,8 +184,15 @@ class Perform extends \app\core\Controller
     {
         $id = $id[0];
 
-        $quiz = new \app\models\Quiz();
-        $quizId = $quiz->duplicateQuizById($id);
+        $quiz = (new \app\models\Quiz())->selectQuizById($id);
+
+        if ($quiz->UserId != $_SESSION['UserId'] && $quiz->QuizPrivacy != '1')
+        {
+            header('location:/home?error=You cannot take a quiz that is private.');
+            return;
+        }
+
+        $quizId = (new \app\models\Quiz())->duplicateQuizById($id);
 
         // If Quiz Was Successfully Duplicated
         if ($quizId > 0)

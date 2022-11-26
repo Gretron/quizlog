@@ -40,9 +40,7 @@
     ?>
 
     <div class="big-card">
-        <object class="card-image" data="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>" type="image/png">
-            <img src="/img/pattern.png">
-        </object>
+        <img class="card-image" src="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>">
 
         <h3><?= $quiz->QuizName; ?></h3>
 

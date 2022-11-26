@@ -26,21 +26,57 @@ class Model
         }
     }
 
-    public function duplicateImage($file)
+    public function isImageInUse($image)
     {
-        $file = 'img/' . $file;
-        $info = pathinfo($file);
-        $newFile = uniqid() . '.' . $info['extension'];
+        $sql = 'SELECT QuizBanner FROM Quiz WHERE QuizBanner = :quizBanner';
 
-        if (copy($file, 'img/' . $newFile))
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['quizBanner' => $image]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Quiz');
+        $rows = $statement->fetchAll();
+
+        if ($rows)
         {
-            return $newFile;
+            return true;
         }
 
-        else
+        $sql = 'SELECT QuestionImage FROM Question WHERE QuestionImage = :questionImage';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['questionImage' => $image]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Question');
+        $rows = $statement->fetchAll();
+
+        if ($rows)
         {
-            return '';
+            return true;
         }
+
+        $sql = 'SELECT ResultImage FROM Result WHERE ResultImage = :resultImage';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['resultImage' => $image]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Result');
+        $rows = $statement->fetchAll();
+
+        if ($rows)
+        {
+            return true;
+        }
+
+        $sql = 'SELECT QuestionImage FROM Choice WHERE QuestionImage = :questionImage';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['questionImage' => $image]);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Choice');
+        $rows = $statement->fetchAll();
+
+        if ($rows)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public function isValid()

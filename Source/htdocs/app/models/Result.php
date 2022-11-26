@@ -55,9 +55,19 @@ class Result extends \app\core\Model
 
         $statement = self::$database->prepare($sql);
         $statement->execute(['userId' => $this->userId, 'quizId' => $this->quizId, 'resultName' => $this->resultName, 'resultMode' => $this->resultMode,
-            'resultImage' => $this->duplicateImage($this->resultImage), 'currentQuestion' => $this->currentQuestion, 'completedTime' => $this->completedTime]);
+            'resultImage' => $this->resultImage, 'currentQuestion' => $this->currentQuestion, 'completedTime' => $this->completedTime]);
 
         return self::$database->lastInsertId();
+    }
+
+    public function removeResultImageById($resultId)
+    {
+        $sql = 'UPDATE Result SET ResultImage = "" WHERE ResultId = :resultId';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['resultId' => $resultId]);
+
+        return $statement->rowCount();
     }
 
     public function updateResultQuizIdById($resultId)
@@ -98,5 +108,26 @@ class Result extends \app\core\Model
         $statement->execute(['resultId' => $resultId]);
 
         return $statement->rowCount();
+    }
+
+    public function deleteResultById($resultId)
+    {
+        $result = $this->selectResultById($resultId);
+        $this->removeResultImageById($resultId);
+
+        if (!$this->isImageInUse($result->ResultImage) && !empty($result->ResultImage))
+        {
+            unlink('img/' . $result->ResultImage);
+        }
+
+        $choices = new \app\models\Choice();
+        $choices->deleteChoicesByResultId($resultId);
+
+        $sql = 'DELETE FROM Result WHERE ResultId = :resultId';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['resultId' => $resultId]);
+
+        return $statement->rowCount();       
     }
 }

@@ -12,7 +12,7 @@
     border-radius: 8px;
     margin-bottom: 16px;
 
-    object-fit: none;
+    object-fit: cover;
 }
 
 .big-card h3 {
@@ -446,7 +446,7 @@
     display: flex;
     align-items: center;
 
-    border: 2px solid var(--green);
+    border: 2px solid var(--orange);
     border-radius: 8px;
     padding: 16px;
 }
@@ -456,14 +456,14 @@
 }
 
 .choice-card .correct-choice svg path {
-    fill: var(--green);
+    fill: var(--orange);
 }
 
 .choice-card .wrong-choice {
     display: flex;
     align-items: center;
 
-    border: 2px solid var(--red);
+    border: 2px solid var(--grey);
     border-radius: 8px;
     padding: 16px;
 }
@@ -473,9 +473,26 @@
 }
 
 .choice-card .wrong-choice svg path {
-    fill: var(--red);
+    fill: var(--grey);
 }
 
 .choice-card .choice-options:has(.wrong-choice + .correct-choice) .wrong-choice {
     margin-bottom: 16px;
+}
+
+.action-card {
+    display: flex;
+
+    padding: 16px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 8px;
+    margin-top: 16px;
+}
+
+.action-card button {
+    width: 100%;
+}
+
+.action-card button:nth-child(2) {
+    margin-left: 16px;
 }

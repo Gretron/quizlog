@@ -183,6 +183,29 @@ class Result extends \app\core\Controller
     #[\app\filters\Perform]
     public function delete($id)
     {
+        $id = $id[0];
 
+        $result = (new \app\models\Result())->selectResultById($id);
+
+        if ($_SESSION['UserId'] == $result->UserId)
+        {
+            if ($result->deleteResultById($id) > 0)
+            {
+                header('location:/result?error=Succesfully deleted result \''. $result->ResultName . '\'.');
+                return;
+            }
+
+            else
+            {
+                header('location:/result?error=There was an error while deleting\''. $result->ResultName . '\'.');
+                return;
+            }
+        }
+
+        else
+        {
+            header('location:/result?error=You cannot delete a result you haven\'t created.');
+            return;
+        }
     }
 }

@@ -6,6 +6,19 @@ h2, h3 {
     margin-bottom: 16px;
 }
 
+.quiz-banner {
+    width: 100%;
+
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    object-fit: fill;
+}
+
+.remove-quiz-image {
+    margin-bottom: 16px;
+}
+
 .form-field {
     margin-bottom: 16px;
 }
@@ -65,6 +78,19 @@ form .form-field input[name='quiz-privacy'] {
 
 .question .form-field input {
     width: 80% !important;
+}
+
+.question img {
+    width: 100%;
+
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    object-fit: fill;
+}
+
+.question .remove-question-image {
+    margin-bottom: 16px;
 }
 
 .question .form-field select {

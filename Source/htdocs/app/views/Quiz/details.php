@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Quizlog: Quiz Details</title>
+    <title>Quizlog: <?= $data['quiz']->QuizName; ?></title>
 </head>
 
 <body>
@@ -9,6 +9,12 @@
 <link href="/css/card.css" rel="stylesheet">
 
 <div class="content">
+    <?php if (isset($_GET['error'])): ?>
+
+    <div class="error"><?= $_GET['error']; ?></div>
+
+    <?php endif; ?>
+
     <?php
         $quiz = $data['quiz'];
 
@@ -26,9 +32,7 @@
     ?>
 
     <div class="detail-card">
-        <object class="card-image" data="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>" type="image/png">
-            <img src="/img/pattern.png">
-        </object>
+        <img class="card-image" src="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>">
 
         <div class="card-body">
             <h2><?= $quiz->QuizName; ?></h2>
@@ -47,6 +51,11 @@
                 <button class="white-button" onclick="location.href='/perform/exam/<?= $quiz->QuizId; ?>'">Exam Mode</button>
             </div>
         </div>
+    </div>
+
+    <div class="action-card">
+        <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'">Modify Quiz</button>
+        <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'">Delete Delete</button>
     </div>
 </div>
 

@@ -65,15 +65,12 @@ class Question extends \app\core\Model
         return self::$database->lastInsertId();
     }
 
-    public function updateQuestionImageById($questionId)
+    public function removeQuestionImageById($questionId)
     {
-        $question = $this->selectQuestionById($questionId);
-        $newImage = $this->duplicateImage($question->QuestionImage);
-
-        $sql = 'UPDATE Question SET QuestionImage = :questionImage WHERE QuestionId = :questionId';
+        $sql = 'UPDATE Question SET QuestionImage = "" WHERE QuestionId = :questionId';
 
         $statement = self::$database->prepare($sql);
-        $statement->execute(['questionImage' => $newImage, 'questionId' => $questionId]);
+        $statement->execute(['questionId' => $questionId]);
 
         return $statement->rowCount();
     }
@@ -95,8 +92,6 @@ class Question extends \app\core\Model
 
             for ($i = 0; $i < count($newQuestions); $i++)
             {
-                $this->updateQuestionImageById($newQuestions[$i]->QuestionId);
-
                 $answer = new \app\models\Answer();
                 $answer->duplicateAnswersByQuestionId($newQuestions[$i]->QuestionId, $oldQuestions[$i]->QuestionId);
             }
@@ -117,7 +112,9 @@ class Question extends \app\core\Model
 
         foreach($questions as $question)
         {
-            if (!empty($question->QuestionImage))
+            $this->removeQuestionImageById($question->QuestionId);
+
+            if (!$this->isImageInUse($question->QuestionImage) && !empty($question->QuestionImage))
             {
                 unlink('img/' . $question->QuestionImage);
             }
@@ -130,6 +127,27 @@ class Question extends \app\core\Model
 
         $statement = self::$database->prepare($sql);
         $statement->execute(['quizId' => $quizId]);
+
+        return $statement->rowCount();
+    }
+
+    public function deleteQuestionById($questionId)
+    {
+        $question = $this->selectQuestionById($questionId);
+        $this->removeQuestionImageById($question->QuestionId);
+
+        if (!$this->isImageInUse($question->QuestionImage) && !empty($question->QuestionImage))
+        {
+            unlink('img/' . $question->QuestionImage);
+        }
+
+        $answers = new \app\models\Answer();
+        $answers->deleteAnswersByQuestionId($question->QuestionId);
+
+        $sql = 'DELETE FROM Question WHERE QuestionId = :questionId';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['questionId' => $questionId]);
 
         return $statement->rowCount();
     }

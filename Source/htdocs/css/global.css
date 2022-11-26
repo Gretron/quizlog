@@ -123,7 +123,7 @@ header nav a {
 }
 
 .error {
-    color: var(--orange);
+    color: var(--white);
     background: transparent;
 
     padding: 16px;
@@ -309,6 +309,15 @@ h4 {
     transition: 0.3s ease;
 }
 
+.grey-button:disabled {
+    color: var(--white) !important;
+    background-color: var(--dark-grey) !important;
+
+    cursor: not-allowed;
+
+    opacity: 0.5;
+}
+
 .white-button {
     color: var(--black);
     background: var(--white);
@@ -324,9 +333,9 @@ h4 {
     transition: 0.3s ease;
 }
 
-.grey-button:disabled {
-    color: var(--white) !important;
-    background-color: var(--dark-grey) !important;
+.white-button:disabled {
+    color: var(--black) !important;
+    background-color: var(--white) !important;
 
     cursor: not-allowed;
 

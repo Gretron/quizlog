@@ -52,7 +52,7 @@
             <label>Quiz Time*</label>
 
             <div class="form-time">
-                <input type="number" name="quiz-hour" value="0" min="0" max="4">
+                <input type="number" name="quiz-hour" value="0" min="0" max="3">
 
                 <label>H</label>
             </div>

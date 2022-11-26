@@ -88,15 +88,35 @@ class Quiz extends \app\core\Model
         return self::$database->lastInsertId();
     }
 
-    public function updateQuizBannerById($quizId)
+    protected function updateQuiz()
     {
-        $quiz = $this->selectQuizById($quizId);
-        $newBanner = $this->duplicateImage($quiz->QuizBanner);
+        $sql = 'UPDATE Quiz SET 
+                QuizName = :quizName,
+                QuizBanner = :quizBanner,
+                QuizDescription = :quizDescription,
+                QuizPrivacy = :quizPrivacy,
+                QuizTime = :quizTime
+                WHERE QuizId = :quizId';
+        
+        $statement = self::$database->prepare($sql);
+        $statement->execute([
+            'quizName' => $this->quizName,
+            'quizBanner' => $this->quizBanner,
+            'quizDescription' => $this->quizDescription,
+            'quizPrivacy' => $this->quizPrivacy,
+            'quizTime' => $this->quizTime,
+            'quizId' => $this->quizId,
+        ]);
 
-        $sql = 'UPDATE Quiz SET QuizBanner = :quizBanner WHERE QuizId = :quizId';
+        return $statement->rowCount();
+    }
+
+    public function removeQuizImageById($quizId)
+    {
+        $sql = 'UPDATE Quiz SET QuizBanner = "" WHERE QuizId = :quizId';
 
         $statement = self::$database->prepare($sql);
-        $statement->execute(['quizBanner' => $newBanner, 'quizId' => $quizId]);
+        $statement->execute(['quizId' => $quizId]);
 
         return $statement->rowCount();
     }
@@ -115,8 +135,6 @@ class Quiz extends \app\core\Model
         // If Quiz Successfully Cloned
         if ($newQuizId > 0)
         {
-            $this->updateQuizBannerById($quizId);
-
             $question = new \app\models\Question();
             $question->duplicateQuestionsByQuizId($newQuizId, $quizId);
         }
@@ -127,8 +145,9 @@ class Quiz extends \app\core\Model
     public function deleteQuizById($quizId)
     {
         $quiz = $this->selectQuizById($quizId);
+        $this->removeQuizImageById($quizId);
 
-        if (!empty($quiz->QuizBanner))
+        if (!$this->isImageInUse($quiz->QuizBanner) && !empty($quiz->QuizBanner))
         {
             unlink('img/' . $quiz->QuizBanner);
         }

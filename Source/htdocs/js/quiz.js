@@ -12,6 +12,11 @@ const createButton = document.querySelector('.create-question')
 createButton.addEventListener('click', (event) =>
 {
     createQuestion();
+
+    if (document.querySelectorAll('.question').length >= 32)
+    {
+        event.target.disabled = true;
+    }
 })
 
 function createQuestion()
@@ -84,6 +89,11 @@ function createQuestion()
             addButton.addEventListener('click', (event) =>
             {
                 addAnswer(question);
+
+                if (question.querySelectorAll('.answer').length >= 8)
+                {
+                    event.target.disabled = true;
+                }
             });
 
             answers.appendChild(addButton);
@@ -117,6 +127,11 @@ function createQuestion()
     addButton.addEventListener('click', (event) =>
     {
         addAnswer(question);
+
+        if (question.querySelectorAll('.answer').length >= 8)
+        {
+            event.target.disabled = true;
+        }
     });
 
     var deleteButton = question.querySelector('.delete-question');
@@ -124,6 +139,11 @@ function createQuestion()
     {
         question.remove();
         calibrateQuestions();
+
+        if (document.querySelectorAll('.question').length < 32)
+        {
+            (document.querySelector('.create-question')).disabled = false;
+        }
     });
 }
 
@@ -184,6 +204,11 @@ function addAnswer(question)
     {
         answer.remove();
         calibrateAnswers(question);
+
+        if (question.querySelectorAll('.answer').length < 8)
+        {
+            (question.querySelector('.add-answer')).disabled = false;
+        }
     });
 }
 

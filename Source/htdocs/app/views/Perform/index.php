@@ -66,9 +66,7 @@
     <?php endif; ?>
 
     <div class="perform-card">
-        <object class="card-image" data="<?= !empty($data['question']->QuestionImage) ? '/img/' . $data['question']->QuestionImage : '/img/pattern.png'; ?>" type="image/png">
-            <img src="/img/pattern.png">
-        </object>
+        <img class="card-image" src="<?= !empty($data['question']->QuestionImage) ? '/img/' . $data['question']->QuestionImage : '/img/pattern.png'; ?>">
 
         <h4><?= $data['question']->QuestionText; ?></h3>
 

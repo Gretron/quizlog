@@ -27,9 +27,7 @@
         <?php foreach($data['results'] as $result): ?>
 
         <div class="result-card">
-            <object class="card-image" data="<?= !empty($result->ResultImage) ? '/img/' . $result->ResultImage : '/img/pattern.png'; ?>" type="image/png">
-                <img src="/img/pattern.png">
-            </object>
+            <img class="card-image" src="<?= !empty($result->ResultImage) ? '/img/' . $result->ResultImage : '/img/pattern.png'; ?>">
 
             <div class="card-body">
                 <h2><?= $result->ResultName; ?></h2>

@@ -41,28 +41,15 @@ class Choice extends \app\core\Model
 
         $count = $statement->rowCount();
 
-        if ($count > 0)
-        {
-            $choices = $this->selectChoicesByResultId($resultId);
-
-            foreach ($choices as $choice)
-            {
-                $this->updateChoiceImageById($choice->ChoiceId);
-            }
-        }
-
         return $count;
     }
 
-    public function updateChoiceImageById($choiceId)
+    public function removeQuestionImageById($choiceId)
     {
-        $choice = $this->selectChoiceById($choiceId);
-        $newImage = $this->duplicateImage($choice->QuestionImage);
-
-        $sql = 'UPDATE Choice SET QuestionImage = :questionImage WHERE ChoiceId = :choiceId';
+        $sql = 'UPDATE Choice SET QuestionImage = "" WHERE ChoiceId = :choiceId';
 
         $statement = self::$database->prepare($sql);
-        $statement->execute(['questionImage' => $newImage, 'choiceId' => $choiceId]);
+        $statement->execute(['choiceId' => $choiceId]);
 
         return $statement->rowCount();
     }
@@ -75,5 +62,27 @@ class Choice extends \app\core\Model
         $statement->execute(['choiceText' => $this->choiceText, 'choiceId' => $this->choiceId]);
 
         return $statement->rowCount();   
+    }
+
+    public function deleteChoicesByResultId($resultId)
+    {
+        $choices = $this->selectChoicesByResultId($resultId);
+
+        foreach($choices as $choice)
+        {
+            $this->removeQuestionImageById($choice->ChoiceId);
+
+            if (!$this->isImageInUse($choice->QuestionImage) && !empty($choice->QuestionImage))
+            {
+                unlink('img/' . $choice->QuestionImage);
+            }
+        }
+
+        $sql = 'DELETE FROM Choice WHERE ResultId = :resultId';
+
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['resultId' => $resultId]);
+
+        return $statement->rowCount();
     }
 }
