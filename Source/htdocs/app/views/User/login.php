@@ -1,6 +1,6 @@
 <html>
 <head>
-
+    <title>Quizlog: Login</title>
 </head>
 
 <body>

@@ -1,6 +1,13 @@
 <html>
 <head>
+    <?php
 
+    $user = new \app\models\User();
+    $user = $user->selectUserById($data['userId']);
+
+    ?>
+
+    <title>Quizlog: <?= $user->Username; ?></title>
 </head>
 
 <body>
@@ -9,13 +16,6 @@
 <link href="/css/card.css" rel="stylesheet">
 
 <div class="content">
-    <?php
-
-    $user = new \app\models\User();
-    $user = $user->selectUserById($data['userId']);
-
-    ?>
-
     <h1><?= $user->Username; ?></h1>
 
     <?php if (count($data['quizzes']) < 1): ?>
