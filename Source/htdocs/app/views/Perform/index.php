@@ -83,7 +83,7 @@
                 <div class="form-field">
                     <textarea name="text"><?= $data['choice']->ChoiceText; ?></textarea>
 
-                    <button name="submit" type="submit" class="orange-button">Submit</button>
+                    <button name="submit" type="submit" class="orange-button <?= !empty($data['choice']->ChoiceText) ? 'selected-button' : ''; ?>">Submit</button>
                 </div>
             <?php endif; ?>
         </form>

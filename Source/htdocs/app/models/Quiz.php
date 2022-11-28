@@ -34,7 +34,7 @@ class Quiz extends \app\core\Model
 
     public function selectQuizzesByUserId($userId)
     {
-        $sql = 'SELECT * FROM Quiz WHERE UserId = :userId ORDER BY QuizId DESC';
+        $sql = 'SELECT * FROM Quiz WHERE UserId = :userId AND QuizPrivacy != "2" ORDER BY QuizId DESC';
 
         $statement = self::$database->prepare($sql);
         $statement->execute(['userId' => $userId]);

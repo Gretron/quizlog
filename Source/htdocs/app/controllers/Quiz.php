@@ -394,7 +394,7 @@ class Quiz extends \app\core\Controller
 
         $quiz = (new \app\models\Quiz())->selectQuizById($id);
 
-        if ($quiz->UserId != $_SESSION['UserId'] && $quiz->QuizPrivacy != '1')
+        if (($quiz->UserId != $_SESSION['UserId'] && $quiz->QuizPrivacy != '1') || $quiz->QuizPrivacy == '2')
         {
             header('location:/home?error=You cannot view a quiz that is private.');
             return;
