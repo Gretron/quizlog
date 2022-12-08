@@ -87,10 +87,14 @@ header nav a {
 
 .dropdown div {
     background: var(--dark-grey);
+    display: flex;
+    flex-direction: column;
 
     position: absolute;
     left: -1rem;
     top: calc(100% + .25rem);
+
+    white-space: nowrap;
 
     padding: 16px;
     border-radius: 8px;

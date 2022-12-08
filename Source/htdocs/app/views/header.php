@@ -45,6 +45,7 @@
 
         <div>
             <a class="nav-link" href="/user/profile/<?= $_SESSION['UserId']; ?>">Profile</a>
+            <a class="nav-link" href="/user/setup2fa">Setup 2FA</a>
             <a class="nav-link" href="/user/logout">Logout</a>
         </div>
     </div>

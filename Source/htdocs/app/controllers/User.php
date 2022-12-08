@@ -139,20 +139,22 @@ class User extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     public function setup2fa()
     { 
         if(isset($_POST['submit']))
         {
             $token = $_POST['token'];
 
-            if(\app\core\TokenAuth6238::verify($_SESSION['SecretKey'], $token))
+            if(\app\core\TokenAuth6238::verify($_SESSION['SetupKey'], $token))
             {
                 $user = new \App\models\User();
-                $user->secretKey = $_SESSION['SecretKey']; 
+                $user->secretKey = $_SESSION['SetupKey']; 
                 $user->userId = $_SESSION['UserId'];
                 $user->Update2FA();
 
-                unset($_SESSION['SecretKey']);
+                $_SESSION['SecretKey'] = $_SESSION['SetupKey'];
+                unset($_SESSION['SetupKey']);
 
                 header('location:/Home'); 
             }
@@ -166,12 +168,9 @@ class User extends \app\core\Controller
         else
         {
             $secretkey = \App\core\TokenAuth6238::generateRandomClue(); 
-            $_SESSION['SecretKey'] = $secretkey;
+            $_SESSION['SetupKey'] = $secretkey;
 
             $url = \app\core\TokenAuth6238::getLocalCodeUrl($_SESSION['Username'], 'localhost', $secretkey, 'Quizlog');
-
-            var_dump($secretkey);
-            var_dump($_SESSION['SecretKey']);
 
             $this->view('User/setup2fa', $url);
         }
@@ -180,6 +179,11 @@ class User extends \app\core\Controller
     #[\app\filters\Login]
     public function enter2fa()
     {
+        if (!isset($_SESSION['SecretKey']))
+        {
+            header('location:/Home'); 
+        }
+
         if(isset($_POST['submit']))
         {
             $token = $_POST['token'];
