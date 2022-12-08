@@ -8,6 +8,7 @@ namespace app\controllers;
 class Quiz extends \app\core\Controller
 {
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function index()
     {
@@ -18,6 +19,7 @@ class Quiz extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function create()
     {
@@ -169,6 +171,7 @@ class Quiz extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function modify($id) 
     {
@@ -387,6 +390,7 @@ class Quiz extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function details($id) 
     {
@@ -404,6 +408,7 @@ class Quiz extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function delete($id)
     {

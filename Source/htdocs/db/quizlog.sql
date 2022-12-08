@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2022 at 07:37 AM
+-- Generation Time: Dec 08, 2022 at 07:39 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -39,11 +39,11 @@ CREATE TABLE `answer` (
 --
 
 INSERT INTO `answer` (`AnswerId`, `QuestionId`, `AnswerText`, `AnswerCorrect`) VALUES
-(1148, 559, 'Zebra', 0),
-(1149, 559, 'Lion', 1),
-(1150, 559, 'Hyena', 0),
-(1151, 559, 'Vulture', 0),
-(1152, 560, 'hakuna,matata', 1);
+(1174, 570, 'Zebra', 0),
+(1175, 570, 'Lion', 1),
+(1176, 570, 'Hyena', 0),
+(1177, 570, 'Vulture', 0),
+(1178, 571, 'hakuna,matata', 1);
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,9 @@ INSERT INTO `choice` (`ChoiceId`, `ResultId`, `ChoiceType`, `QuestionText`, `Que
 (123, 102, 'Multiple Choice', 'Which animal is in the picture?', '6381048b25094.jpg', 'Lion', 'Zebra'),
 (124, 102, 'Short Answer', 'Which famous phrases is sung by this group in the Lion King movie?', '638104f37baee.jpg', '', 'hakuna,matata'),
 (125, 103, 'Multiple Choice', 'Which animal is in the picture?', '6381048b25094.jpg', 'Lion', 'Lion'),
-(126, 103, 'Short Answer', 'Which famous phrases is sung by this group in the Lion King movie?', '638104f37baee.jpg', 'hakuna matata', 'hakuna,matata');
+(126, 103, 'Short Answer', 'Which famous phrases is sung by this group in the Lion King movie?', '638104f37baee.jpg', 'hakuna matata', 'hakuna,matata'),
+(127, 104, 'Multiple Choice', 'Which animal is in the picture?', '6381048b25094.jpg', 'Lion', 'Lion'),
+(128, 104, 'Short Answer', 'Which famous phrases is sung by this group in the Lion King movie?', '638104f37baee.jpg', 'hakuna matata\r\n', 'hakuna,matata');
 
 -- --------------------------------------------------------
 
@@ -119,8 +121,8 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`QuestionId`, `QuizId`, `QuestionText`, `QuestionImage`, `QuestionHint`, `QuestionType`) VALUES
-(559, 273, 'Which animal is in the picture?', '6381048b25094.jpg', 'He is the king of the jungle...', 'Multiple Choice'),
-(560, 273, 'Which famous phrases is sung by this group in the Lion King movie?', '638104f37baee.jpg', 'Be happy...', 'Short Answer');
+(570, 273, 'Which animal is in the picture?', '6381048b25094.jpg', 'He is the king of the jungle...', 'Multiple Choice'),
+(571, 273, 'Which famous phrases is sung by this group in the Lion King movie?', '638104f37baee.jpg', 'Be happy...', 'Short Answer');
 
 -- --------------------------------------------------------
 
@@ -143,7 +145,7 @@ CREATE TABLE `quiz` (
 --
 
 INSERT INTO `quiz` (`QuizId`, `UserId`, `QuizName`, `QuizBanner`, `QuizDescription`, `QuizPrivacy`, `QuizTime`) VALUES
-(273, 23, 'Animal Kingdom Quiz', '63817165c1e55.jpg', 'This is a quiz about the animal kingdom. Your knowledge about the animal kingdom will be put to the test!', '0', '00:05:00');
+(273, 23, 'Animal Kingdom Quiz', '63817165c1e55.jpg', 'This is a quiz about the animal kingdom. Your knowledge about the animal kingdom will be put to the test!', '1', '00:05:00');
 
 -- --------------------------------------------------------
 
@@ -171,7 +173,8 @@ INSERT INTO `result` (`ResultId`, `UserId`, `QuizId`, `ResultName`, `ResultMode`
 (100, 23, 0, 'Animal Kingdom Quiz', 'Exam', '6381048b2358a.jpg', 1, '2022-11-25 19:11:19'),
 (101, 23, 0, 'Animal Kingdom Quiz', 'Practice', '6381048b2358a.jpg', 1, '2022-11-25 22:32:14'),
 (102, 23, 0, 'Animal Kingdom Quiz', 'Practice', '6381048b2358a.jpg', 1, '2022-11-25 22:32:58'),
-(103, 23, 0, 'Animal Kingdom Quiz', 'Practice', '63817165c1e55.jpg', 1, '2022-11-26 18:52:57');
+(103, 23, 0, 'Animal Kingdom Quiz', 'Practice', '63817165c1e55.jpg', 1, '2022-11-26 18:52:57'),
+(104, 23, 0, 'Animal Kingdom Quiz', 'Practice', '63817165c1e55.jpg', 1, '2022-12-07 02:57:17');
 
 -- --------------------------------------------------------
 
@@ -183,23 +186,23 @@ CREATE TABLE `user` (
   `UserId` int(11) NOT NULL,
   `Username` varchar(48) NOT NULL,
   `PasswordHash` varchar(72) NOT NULL,
-  `Bio` text NOT NULL
+  `SecretKey` varchar(72) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UserId`, `Username`, `PasswordHash`, `Bio`) VALUES
-(23, 'plaincustody', '$2y$10$JQsBDxP5vrJRILp2tEmhbOJ4m.s2PHSQdTcohBEuwVdKfDtgAR8Ri', ''),
-(26, 'administrator', '$2y$10$5HAjvSCGwtywX.Yn3BInz.ppmIRuDAtoDeEhoRIaWZJHhSGmoDZ72', ''),
-(27, 'sample0', '$2y$10$oUWL5JW/1Om/RjXyI14v5eA47anLV2waevPNdflKGE07zZNz5/w3e', ''),
-(28, 'sample1', '$2y$10$tGGyH3uQEUoABdlih7Z2muOj0LdkW5JCDy1dgHV9waJh8l8m5v4AW', ''),
-(29, 'sample2', '$2y$10$Zez8fuPrevFkW9gsUHQNBuoW01aF2JnMMVpDJw7vJqE1A3jMRgVVC', ''),
-(30, 'whatface0', '$2y$10$mC4j7YxU5zDOz2xLJ6oiAumzrCJ0jDSYs9Hsj6D1xlneuW.PO00vK', ''),
-(31, 'yourmom', '$2y$10$Ks53tJDpBslWESsOfNYDhenNW/SaPKj.He1wEslufg2r.BVN89gji', ''),
-(32, 'sample4', '$2y$10$iuiAXIGSymQ6u4Mo8i5wlegls2GgIMduaGdiPMI1AzgjK3KM80QEK', ''),
-(33, 'sample5', '$2y$10$/vTrZMOBnd49HzOtIFNkCeFwD717tbHDq9UFNBfIwtfb1oh5IDi6a', '');
+INSERT INTO `user` (`UserId`, `Username`, `PasswordHash`, `SecretKey`) VALUES
+(23, 'plaincustody', '$2y$10$JQsBDxP5vrJRILp2tEmhbOJ4m.s2PHSQdTcohBEuwVdKfDtgAR8Ri', 'FHSJM5CDWFFH6JWS'),
+(26, 'administrator', '$2y$10$5HAjvSCGwtywX.Yn3BInz.ppmIRuDAtoDeEhoRIaWZJHhSGmoDZ72', NULL),
+(27, 'sample0', '$2y$10$oUWL5JW/1Om/RjXyI14v5eA47anLV2waevPNdflKGE07zZNz5/w3e', NULL),
+(28, 'sample1', '$2y$10$tGGyH3uQEUoABdlih7Z2muOj0LdkW5JCDy1dgHV9waJh8l8m5v4AW', NULL),
+(29, 'sample2', '$2y$10$Zez8fuPrevFkW9gsUHQNBuoW01aF2JnMMVpDJw7vJqE1A3jMRgVVC', NULL),
+(30, 'whatface0', '$2y$10$mC4j7YxU5zDOz2xLJ6oiAumzrCJ0jDSYs9Hsj6D1xlneuW.PO00vK', NULL),
+(31, 'yourmom', '$2y$10$Ks53tJDpBslWESsOfNYDhenNW/SaPKj.He1wEslufg2r.BVN89gji', NULL),
+(32, 'sample4', '$2y$10$iuiAXIGSymQ6u4Mo8i5wlegls2GgIMduaGdiPMI1AzgjK3KM80QEK', NULL),
+(33, 'sample5', '$2y$10$/vTrZMOBnd49HzOtIFNkCeFwD717tbHDq9UFNBfIwtfb1oh5IDi6a', NULL);
 
 --
 -- Indexes for dumped tables
@@ -254,31 +257,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `AnswerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1161;
+  MODIFY `AnswerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1179;
 
 --
 -- AUTO_INCREMENT for table `choice`
 --
 ALTER TABLE `choice`
-  MODIFY `ChoiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `ChoiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `QuestionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=565;
+  MODIFY `QuestionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=572;
 
 --
 -- AUTO_INCREMENT for table `quiz`
 --
 ALTER TABLE `quiz`
-  MODIFY `QuizId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
+  MODIFY `QuizId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=281;
 
 --
 -- AUTO_INCREMENT for table `result`
 --
 ALTER TABLE `result`
-  MODIFY `ResultId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `ResultId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `user`

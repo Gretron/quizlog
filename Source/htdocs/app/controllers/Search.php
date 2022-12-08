@@ -8,6 +8,7 @@ namespace app\controllers;
 class Search extends \app\core\Controller
 {
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function index()
     {

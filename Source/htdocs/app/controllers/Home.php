@@ -8,6 +8,7 @@ namespace app\controllers;
 class Home extends \app\core\Controller
 {
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function index()
     {

@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\core\TokenAuth6238;
+
 /**
  * User Controller
  */
@@ -29,6 +31,11 @@ class User extends \app\core\Controller
                 // If Password Is Correct...
                 if (password_verify($password, $user->PasswordHash))
                 {
+                    if ($user->SecretKey)
+                    {
+                        $_SESSION['SecretKey'] = $user->SecretKey;
+                    }
+
                     $_SESSION['UserId'] = $user->UserId;
                     $_SESSION['Username'] = $user->Username;
 
@@ -103,6 +110,7 @@ class User extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function profile($id)
     {
@@ -124,10 +132,80 @@ class User extends \app\core\Controller
     }
 
     #[\app\filters\Login]
-    #[\app\filters\Perform]
     public function logout()
     {
         session_destroy();
         header('location:/user');
+    }
+
+    #[\app\filters\Login]
+    public function setup2fa()
+    { 
+        if(isset($_POST['submit']))
+        {
+            $token = $_POST['token'];
+
+            if(\app\core\TokenAuth6238::verify($_SESSION['SecretKey'], $token))
+            {
+                $user = new \App\models\User();
+                $user->secretKey = $_SESSION['SecretKey']; 
+                $user->userId = $_SESSION['UserId'];
+                $user->Update2FA();
+
+                unset($_SESSION['SecretKey']);
+
+                header('location:/Home'); 
+            }
+            
+            else
+            {
+                header('location:/User/setup2fa?error=Token Is Invalid.');
+            } 
+        }
+
+        else
+        {
+            $secretkey = \App\core\TokenAuth6238::generateRandomClue(); 
+            $_SESSION['SecretKey'] = $secretkey;
+
+            $url = \app\core\TokenAuth6238::getLocalCodeUrl($_SESSION['Username'], 'localhost', $secretkey, 'Quizlog');
+
+            var_dump($secretkey);
+            var_dump($_SESSION['SecretKey']);
+
+            $this->view('User/setup2fa', $url);
+        }
+    }
+
+    #[\app\filters\Login]
+    public function enter2fa()
+    {
+        if(isset($_POST['submit']))
+        {
+            $token = $_POST['token'];
+
+            if(\app\core\TokenAuth6238::verify($_SESSION['SecretKey'], $token))
+            {
+                unset($_SESSION['SecretKey']);
+
+                header('location:/Home'); 
+            }
+            
+            else
+            {
+                header('location:?error=Token Is Invalid.');
+            } 
+        }
+
+        else
+        {
+            $this->view('User/enter2fa');
+        }
+    }
+
+    public function makeQrCode()
+    { 
+        $data = $_GET['data']; 
+        \QRcode::png($data);
     }
 }

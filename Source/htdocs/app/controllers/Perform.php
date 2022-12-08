@@ -8,6 +8,7 @@ namespace app\controllers;
 class Perform extends \app\core\Controller
 {
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     public function index()
     {
         $result = new \app\models\Result();
@@ -66,6 +67,7 @@ class Perform extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     public function next()
     {
         $result = new \app\models\Result();
@@ -87,6 +89,7 @@ class Perform extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     public function previous()
     {
         $result = new \app\models\Result();
@@ -117,6 +120,7 @@ class Perform extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function practice($id)
     {    
@@ -179,6 +183,7 @@ class Perform extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function exam($id)
     {

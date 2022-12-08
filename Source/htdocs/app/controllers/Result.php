@@ -8,6 +8,7 @@ namespace app\controllers;
 class Result extends \app\core\Controller
 {
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function index()
     {
@@ -74,6 +75,7 @@ class Result extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function details($id)
     {
@@ -134,6 +136,7 @@ class Result extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     public function complete($id)
     {   
         $id = $id[0];
@@ -180,6 +183,7 @@ class Result extends \app\core\Controller
     }
 
     #[\app\filters\Login]
+    #[\app\filters\TwoFactorAuth]
     #[\app\filters\Perform]
     public function delete($id)
     {

@@ -54,4 +54,14 @@ class User extends \app\core\Model
 
         return $statement->rowCount();
     }
+
+    public function Update2FA()
+    {
+        $sql = 'UPDATE User SET SecretKey = :secretKey WHERE UserId = :userId';
+        
+        $statement = self::$database->prepare($sql);
+        $statement->execute(['secretKey' => $this->secretKey, 'userId' => $this->userId]);
+
+        return $statement->rowCount();
+    }
 }
