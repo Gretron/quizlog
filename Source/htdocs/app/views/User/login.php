@@ -25,23 +25,23 @@
 
     <form class="user-form" method="post">
         <div class="form-field">
-            <label>Username</label>
+            <label><?= _("Username") ?></label>
 
             <input type="text" name="username">
         </div>
 
         <div class="form-field">
-            <label>Password</label>
+            <label><?= _("Password") ?></label>
 
             <input type="password" name="password">
         </div>
 
-        <button class="orange-button" type="submit" name="submit">Login</button>
+        <button class="orange-button" type="submit" name="submit"><?= _("Login") ?></button>
 
         <div>
-            <span>Don't have an account?</span>
+            <span><?= _("Don't have an account?") ?></span>
 
-            <a class="nav-link" href="user/register">Create an account</a>
+            <a class="nav-link" href="user/register"><?= _("Create an account") ?></a>
         </div>
     </form>
 

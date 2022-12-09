@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Quizlog: Perform</title>
+    <title>Quizlog: <?= _("Perform") ?></title>
 </head>
 
 <body>
@@ -53,9 +53,9 @@
         <div class="countdown">0h 0m 0s</div>
 
         <?php if ($data['count'] != $data['result']->CurrentQuestion): ?>
-            <button class="orange-button" onclick="location.href='/perform/next'">Next</button>
+            <button class="orange-button" onclick="location.href='/perform/next'"><?= _("Next") ?></button>
         <?php else: ?>
-            <button class="orange-button" style="opacity: 0; cursor: default;">Next</button>
+            <button class="orange-button" style="opacity: 0; cursor: default;"><?= _("Next") ?></button>
         <?php endif; ?>
     </div>
 
@@ -68,20 +68,20 @@
     <div class="perform-card">
         <img class="card-image" src="<?= !empty($data['question']->QuestionImage) ? '/img/' . $data['question']->QuestionImage : '/img/pattern.png'; ?>">
 
-        <h4><?= $data['question']->QuestionText; ?></h3>
+        <h4><?= htmlentities($data['question']->QuestionText); ?></h3>
 
         <div class="card-hint">
-            <?= $data['result']->ResultMode == 'Practice' ? $data['question']->QuestionHint : '' ?>
+            <?= $data['result']->ResultMode == 'Practice' ? htmlentities($data['question']->QuestionHint) : '' ?>
         </div>
 
         <form class="card-answer" method="post">
             <?php if ($data['question']->QuestionType == 'Multiple Choice'): ?>
                 <?php foreach($data['answers'] as $answer): ?>
-                    <button type="submit" name="choice" value="<?= $answer->AnswerText; ?>" class="orange-button <?= $answer->AnswerText == $data['choice']->ChoiceText ? 'selected-button' : ''; ?>"><?= $answer->AnswerText; ?></button>
+                    <button type="submit" name="choice" value="<?= htmlentities($answer->AnswerText); ?>" class="orange-button <?= $answer->AnswerText == $data['choice']->ChoiceText ? 'selected-button' : ''; ?>"><?= htmlentities($answer->AnswerText); ?></button>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="form-field">
-                    <textarea name="text"><?= $data['choice']->ChoiceText; ?></textarea>
+                    <textarea name="text"><?= htmlentities($data['choice']->ChoiceText); ?></textarea>
 
                     <button name="submit" type="submit" class="orange-button <?= !empty($data['choice']->ChoiceText) ? 'selected-button' : ''; ?>">Submit</button>
                 </div>
@@ -90,7 +90,7 @@
     </div>
 
     <div class="completion">
-        <button class="white-button" onclick="location.href='/result/complete/<?= $data['result']->ResultId; ?>'">Finish</button>
+        <button class="white-button" onclick="location.href='/result/complete/<?= $data['result']->ResultId; ?>'"><?= _("Finish") ?></button>
     </div>
 </div>
 

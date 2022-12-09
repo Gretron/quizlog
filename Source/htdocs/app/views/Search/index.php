@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Quizlog: Search</title>
+    <title>Quizlog: <?= _("Search") ?></title>
 </head>
 
 <body>
@@ -12,10 +12,10 @@
 <div class="content">
     <form class="search-form">
         <div class="form-field">
-            <input type="text" name="q" placeholder="<?= isset($_GET['q']) ? $_GET['q'] : 'Search term...'; ?>">
+            <input type="text" name="q" placeholder="<?= isset($_GET['q']) ? $_GET['q'] : _("Search term..."); ?>">
         </div>
 
-        <button class="orange-button">Search</button>
+        <button class="orange-button"><?= _("Search") ?></button>
     </form>
 
     <?php if (isset($_GET['q'])): ?>
@@ -24,7 +24,7 @@
 
         <?php if (count($data) < 1): ?>
 
-        <h3>No results found.</h3>
+        <h3><?= _("No results found.") ?></h3>
 
         <?php endif; ?>
 
@@ -45,24 +45,24 @@
             <img class="card-image" src="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>">
 
             <div class="card-body">
-                <h3><?= $quiz->QuizName; ?></h3>
+                <h3><?= htmlentities($quiz->QuizName); ?></h3>
 
                 <div class="card-information">
-                    by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $count; ?> Questions</span>
+                    by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= htmlentities($user->Username); ?></a> • <?= $count; ?> <?= _("Questions") ?></span>
                 </div>
 
                 <div class="card-description">
-                    <?= $quiz->QuizDescription; ?>
+                    <?= htmlentities($quiz->QuizDescription); ?>
                 </div>
 
                 <div class="card-button">
-                    <button class="orange-button" onclick="location.href='/quiz/details/<?= $quiz->QuizId; ?>'">Take</button>
+                    <button class="orange-button" onclick="location.href='/quiz/details/<?= $quiz->QuizId; ?>'"><?= _("Take") ?></button>
 
                     <?php if ($quiz->UserId == $_SESSION['UserId']): ?>
 
-                    <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'">Modify</button>
+                    <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'"><?= _("Modify") ?></button>
 
-                    <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'">Delete</button>
+                    <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'"><?= _("Delete") ?></button>
 
                     <?php endif; ?>
                 </div>

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Quizlog: Quizzes</title>
+    <title>Quizlog: <?= _("Quizzes") ?></title>
 </head>
 
 <body>
@@ -9,7 +9,7 @@
 <link href="/css/card.css" rel="stylesheet">
 
 <div class="content">
-    <h1>My Quizzes</h1>
+    <h1><?= _("My Quizzes") ?></h1>
 
     <?php if (isset($_GET['error'])): ?>
 
@@ -42,24 +42,24 @@
     <div class="big-card">
         <img class="card-image" src="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>">
 
-        <h3><?= $quiz->QuizName; ?></h3>
+        <h3><?= htmlentities($quiz->QuizName); ?></h3>
 
         <div class="card-description">
-            <?= $quiz->QuizDescription; ?>
+            <?= htmlentities($quiz->QuizDescription); ?>
         </div>
 
         <div class="card-information">
-            by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $time; ?> • <?= $count; ?> Questions</span>
+            <?= _("by") ?> <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= htmlentities($user->Username); ?></a> • <?= $time; ?> • <?= $count; ?> Questions</span>
         </div>
 
         <div class="card-button">
-            <button class="orange-button" onclick="location.href='/quiz/details/<?= $quiz->QuizId; ?>'">Take Quiz</button>
+            <button class="orange-button" onclick="location.href='/quiz/details/<?= $quiz->QuizId; ?>'"><?= _("Take Quiz") ?></button>
 
             <?php if ($quiz->UserId == $_SESSION['UserId']): ?>
 
-            <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'">Modify Quiz</button>
+            <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'"><?= _("Modify Quiz") ?></button>
 
-            <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'">Delete Quiz</button>
+            <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'"><?= _("Delete Quiz") ?></button>
 
             <?php endif; ?>
         </div>

@@ -33,20 +33,21 @@
 
     <?php if (isset($_SESSION['UserId']) && !str_contains($_SERVER['REQUEST_URI'], 'perform')): ?>
     <nav>
-        <a class="nav-link" href="/home">Home</a>
-        <a class="nav-link" href="/search">Search</a>
-        <a class="nav-link" href="/quiz/create">Create</a>
-        <a class="nav-link" href="/quiz">Quizzes</a>
-        <a class="nav-link" href="/result">History</a>
+        <a class="nav-link" href="/home"><?= _("Home") ?></a>
+        <a class="nav-link" href="/search"><?= _("Search") ?></a>
+        <a class="nav-link" href="/quiz/create"><?= _("Create") ?></a>
+        <a class="nav-link" href="/quiz"><?= _("Quizzes") ?></a>
+        <a class="nav-link" href="/result"><?= _("History") ?></a>
     </nav>
 
     <div class="dropdown">
-        <button>Account</button>
+        <button><?= _("Account") ?></button>
 
         <div>
-            <a class="nav-link" href="/user/profile/<?= $_SESSION['UserId']; ?>">Profile</a>
-            <a class="nav-link" href="/user/setup2fa">Setup 2FA</a>
-            <a class="nav-link" href="/user/logout">Logout</a>
+            <a class="nav-link" href="/user/profile/<?= $_SESSION['UserId']; ?>"><?= _("Profile") ?></a>
+            <a class="nav-link" href="/user/setup2fa"><?= _("Setup 2FA") ?></a>
+            <a class="nav-link" href="?lang=<?= isset($_COOKIE["lang"]) ? ($_COOKIE["lang"] == 'fr_CA' ? 'en' : 'fr_CA') : 'fr_CA' ?>"><?= _("Switch Language") ?></a>
+            <a class="nav-link" href="/user/logout"><?= _("Logout") ?></a>
         </div>
     </div>
     <?php endif; ?>

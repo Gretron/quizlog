@@ -35,28 +35,30 @@
         <img class="card-image" src="<?= !empty($quiz->QuizBanner) ? '/img/' . $quiz->QuizBanner : '/img/pattern.png'; ?>">
 
         <div class="card-body">
-            <h2><?= $quiz->QuizName; ?></h2>
+            <h2><?= htmlentities($quiz->QuizName); ?></h2>
 
             <div class="card-information">
-                by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= $user->Username; ?></a> • <?= $time; ?> • <?= $count; ?> Questions</span>
+                by <a class="nav-link" href="/user/profile/<?= $user->UserId; ?>"><?= htmlentities($user->Username); ?></a> • <?= $time; ?> • <?= $count; ?> <?= _("Questions") ?></span>
             </div>
 
             <div class="card-description">
-                <?= $quiz->QuizDescription; ?>
+                <?= htmlentities($quiz->QuizDescription); ?>
             </div>
 
             <div class="card-button">
-                <button class="orange-button" onclick="location.href='/perform/practice/<?= $quiz->QuizId; ?>'">Practice Mode</button>
+                <button class="orange-button" onclick="location.href='/perform/practice/<?= $quiz->QuizId; ?>'"><?= _("Practice Mode") ?></button>
 
-                <button class="white-button" onclick="location.href='/perform/exam/<?= $quiz->QuizId; ?>'">Exam Mode</button>
+                <button class="white-button" onclick="location.href='/perform/exam/<?= $quiz->QuizId; ?>'"><?= _("Exam Mode") ?></button>
             </div>
         </div>
     </div>
 
+    <?php if ($_SESSION['UserId'] == $user->UserId): ?>
     <div class="action-card">
-        <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'">Modify Quiz</button>
-        <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'">Delete Delete</button>
+        <button class="white-button" onclick="location.href='/quiz/modify/<?= $quiz->QuizId; ?>'"><?= _("Modify Quiz") ?></button>
+        <button class="grey-button" onclick="location.href='/quiz/delete/<?= $quiz->QuizId; ?>'"><?= _("Delete Quiz") ?></button>
     </div>
+    <?php endif; ?>
 </div>
 
 <?php include_once('app/views/footer.php'); ?>

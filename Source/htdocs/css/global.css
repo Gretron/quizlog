@@ -91,7 +91,7 @@ header nav a {
     flex-direction: column;
 
     position: absolute;
-    left: -1rem;
+    left: -6rem;
     top: calc(100% + .25rem);
 
     white-space: nowrap;

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Quizlog: Create</title>
+    <title>Quizlog: <?= _("Create") ?></title>
 </head>
 
 <body>
@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/js/create.js" defer></script>
 
 <div class="content">
-    <h1>Create Quiz</h1>
+    <h1><?= _("Create Quiz") ?></h1>
 
     <?php if (isset($_GET['error'])): ?>
 

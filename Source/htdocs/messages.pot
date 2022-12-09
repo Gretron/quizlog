@@ -1,0 +1,223 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-08 22:19-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app/views/header.php:36 app/views/Home/index.php:3
+#: app/views/Home/index.php:12
+msgid "Home"
+msgstr ""
+
+#: app/views/header.php:37 app/views/Search/index.php:3
+#: app/views/Search/index.php:18
+msgid "Search"
+msgstr ""
+
+#: app/views/header.php:38 app/views/Quiz/create.php:3
+msgid "Create"
+msgstr ""
+
+#: app/views/header.php:39 app/views/Quiz/index.php:3
+msgid "Quizzes"
+msgstr ""
+
+#: app/views/header.php:40
+msgid "History"
+msgstr ""
+
+#: app/views/header.php:44
+msgid "Account"
+msgstr ""
+
+#: app/views/header.php:47
+msgid "Profile"
+msgstr ""
+
+#: app/views/header.php:48
+msgid "Setup 2FA"
+msgstr ""
+
+#: app/views/header.php:49
+msgid "Switch Language"
+msgstr ""
+
+#: app/views/header.php:50
+msgid "Logout"
+msgstr ""
+
+#: app/views/Home/index.php:22 app/views/User/profile.php:23
+msgid "No quizzes found."
+msgstr ""
+
+#: app/views/Home/index.php:52
+msgid "by"
+msgstr ""
+
+#: app/views/Home/index.php:52 app/views/Result/index.php:38
+#: app/views/Search/index.php:51 app/views/Quiz/details.php:41
+msgid "Questions"
+msgstr ""
+
+#: app/views/Home/index.php:56
+msgid "Take Quiz"
+msgstr ""
+
+#: app/views/Home/index.php:60 app/views/Quiz/modify.php:15
+#: app/views/Quiz/details.php:57 app/views/Quiz/details.php:58
+msgid "Modify Quiz"
+msgstr ""
+
+#: app/views/Home/index.php:62 app/views/Quiz/details.php:58
+#: app/views/Quiz/details.php:59
+msgid "Delete Quiz"
+msgstr ""
+
+#: app/views/Perform/index.php:3
+msgid "Perform"
+msgstr ""
+
+#: app/views/Perform/index.php:56 app/views/Perform/index.php:58
+msgid "Next"
+msgstr ""
+
+#: app/views/Perform/index.php:93
+msgid "Finish"
+msgstr ""
+
+#: app/views/Quiz/create.php:15
+msgid "Create Quiz"
+msgstr ""
+
+#: app/views/Quiz/index.php:12
+msgid "My Quizzes"
+msgstr ""
+
+#: app/views/Quiz/modify.php:3 app/views/Search/index.php:63
+#: app/views/User/profile.php:60
+msgid "Modify"
+msgstr ""
+
+#: app/views/Result/details.php:3 app/views/Result/details.php:12
+msgid "Result Details"
+msgstr ""
+
+#: app/views/Result/index.php:3 app/views/Result/index.php:12
+msgid "Results"
+msgstr ""
+
+#: app/views/Result/index.php:38
+msgid "out of"
+msgstr ""
+
+#: app/views/Result/index.php:46
+msgid "View Details"
+msgstr ""
+
+#: app/views/Result/index.php:48
+msgid "Delete Result"
+msgstr ""
+
+#: app/views/Search/index.php:15
+msgid "Search term..."
+msgstr ""
+
+#: app/views/Search/index.php:27
+msgid "No results found."
+msgstr ""
+
+#: app/views/Search/index.php:59 app/views/User/profile.php:56
+msgid "Take"
+msgstr ""
+
+#: app/views/Search/index.php:65 app/views/User/profile.php:62
+msgid "Delete"
+msgstr ""
+
+#: app/views/User/enter2fa.php:12
+msgid "Enter 2-Factor Authentication"
+msgstr ""
+
+#: app/views/User/enter2fa.php:16 app/views/User/setup2fa.php:26
+msgid "Authentication Code"
+msgstr ""
+
+#: app/views/User/enter2fa.php:21
+msgid "Enter"
+msgstr ""
+
+#: app/views/User/login.php:28 app/views/User/register.php:28
+msgid "Username"
+msgstr ""
+
+#: app/views/User/login.php:34 app/views/User/register.php:34
+msgid "Password"
+msgstr ""
+
+#: app/views/User/login.php:39
+msgid "Login"
+msgstr ""
+
+#: app/views/User/login.php:42
+msgid "Don't have an account?"
+msgstr ""
+
+#: app/views/User/login.php:44
+msgid "Create an account"
+msgstr ""
+
+#: app/views/User/register.php:40
+msgid "Confirm Password"
+msgstr ""
+
+#: app/views/User/register.php:48
+msgid "Already have an account?"
+msgstr ""
+
+#: app/views/User/register.php:50
+msgid "Log into your account"
+msgstr ""
+
+#: app/views/User/setup2fa.php:12
+msgid "Setup 2-Factor Authentication"
+msgstr ""
+
+#: app/views/User/setup2fa.php:18
+msgid ""
+"Please scan the QR-code on the screen with your favorite Authenticator "
+"software, such as Google Authenticator. The \n"
+"            authenticator software will generate codes that are valid for "
+"30 \n"
+"            seconds only. Enter such a code while and submit it while it "
+"is \n"
+"            still valid to confirm that the 2-factor authentication can be \n"
+"            applied to your account."
+msgstr ""
+
+#: app/views/User/setup2fa.php:31
+msgid "Setup"
+msgstr ""
+
+#: app/views/Quiz/details.php:49
+msgid "Practice Mode"
+msgstr ""
+
+#: app/views/Quiz/details.php:51
+msgid "Exam Mode"
+msgstr ""
+
+#: app/views/Quiz/details.php:58
+msgid "Delete Delete"
+msgstr ""

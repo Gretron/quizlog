@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Quizlog: Modify</title>
+    <title>Quizlog: <?= _("Modify") ?></title>
 </head>
 
 <body>
@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/js/modify.js" defer></script>
 
 <div class="content">
-    <h1>Modify Quiz</h1>
+    <h1><?= _("Modify Quiz") ?></h1>
 
     <?php if (isset($_GET['error'])): ?>
 
@@ -24,7 +24,7 @@
         <div class="form-field">
             <label>Quiz Name*</label>
 
-            <input type="text" name="quiz-name" pattern="^.{8,128}" value="<?= $data['quiz']->QuizName; ?>" required>
+            <input type="text" name="quiz-name" pattern="^.{8,128}" value="<?= htmlentities($data['quiz']->QuizName); ?>" required>
         </div>
 
         <?php if (!empty($data['quiz']->QuizBanner)): ?>
@@ -54,7 +54,7 @@
         <div class="form-field">
             <label>Quiz Description</label>
 
-            <textarea name="quiz-description"><?= $data['quiz']->QuizDescription; ?></textarea>
+            <textarea name="quiz-description"><?= htmlentities($data['quiz']->QuizDescription); ?></textarea>
         </div>
 
         <div class="form-field">
@@ -102,7 +102,7 @@
             <div class="form-field">
                 <label>Question Text*</label>
 
-                <input type="text" class="question-text" name="question[<?= $questionCount; ?>][text]" pattern="^.{8,}" value="<?= $question->QuestionText ?>" required>
+                <input type="text" class="question-text" name="question[<?= $questionCount; ?>][text]" pattern="^.{8,}" value="<?= htmlentities($question->QuestionText) ?>" required>
             </div>
 
             <?php if (!empty($question->QuestionImage)): ?>
@@ -134,7 +134,7 @@
             <div class="form-field">
                 <label>Question Hint</label>
 
-                <input type="text" class="question-hint" name="question[<?= $questionCount; ?>][hint]" value="<?= $question->QuestionHint ?>">
+                <input type="text" class="question-hint" name="question[<?= $questionCount; ?>][hint]" value="<?= htmlentities($question->QuestionHint) ?>">
             </div>
 
             <h3>Question Answers</h3>
@@ -157,7 +157,7 @@
                 <?php foreach($question->Answers as $answer): ?>
 
                 <div class="answer" draggable="true">
-                    <input type="text" class="answer-text" name="question[<?= $questionCount; ?>][answer][<?= $answerCount; ?>][text]" value="<?= $answer->AnswerText ?>" required>
+                    <input type="text" class="answer-text" name="question[<?= $questionCount; ?>][answer][<?= $answerCount; ?>][text]" value="<?= htmlentities($answer->AnswerText) ?>" required>
 
                     <label class="radio">
                         <input type="radio" class="answer-radio" name="question[<?= $questionCount; ?>][correct]" <?= $answer->AnswerCorrect == 1 ? 'checked' : ''; ?> value="<?= $answerCount; ?>" required>
@@ -179,7 +179,7 @@
                 <h3>Short Answers Keywords (Seperated by Comma ",")*</h3>
 
                 <div class="form-field">
-                    <textarea name="question[<?= $questionCount; ?>][answer][text]"><?= $question->Answers[0]->AnswerText; ?></textarea>
+                    <textarea name="question[<?= $questionCount; ?>][answer][text]"><?= htmlentities($question->Answers[0]->AnswerText); ?></textarea>
                 </div>
 
                 <?php endif; ?>

@@ -9,16 +9,16 @@
 <link href="/css/user.css" rel="stylesheet">
 
 <div class="content">
-    <h1>Enter 2-Factor Authentication</h1>
+    <h1><?= _("Enter 2-Factor Authentication") ?></h1>
 
     <form class="user-form" method="post">
         <div class="form-field">
-            <label>Authentication Code</label>
+            <label><?= _("Authentication Code") ?></label>
 
             <input type="text" name="token">
         </div>
 
-        <button class="orange-button" style="margin-bottom: 0;" type="submit" name="submit">Enter</button>
+        <button class="orange-button" style="margin-bottom: 0;" type="submit" name="submit"><?= _("Enter") ?></button>
     </form>
 
     <?php if (isset($_GET['error'])): ?>

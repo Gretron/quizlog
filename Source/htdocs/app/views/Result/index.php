@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Quizlog: Results</title>
+    <title>Quizlog: <?= _("Results") ?></title>
 </head>
 
 <body>
@@ -9,7 +9,7 @@
 <link href="/css/card.css" rel="stylesheet">
 
 <div class="content">
-    <h1>Results</h1>
+    <h1><?= _("Results") ?></h1>
 
     <?php if (isset($_GET['error'])): ?>
 
@@ -20,7 +20,7 @@
     <div class="result-cards">
         <?php if (count($data['results']) < 1): ?>
 
-        <h2>No results found.</h2>
+        <h2><?= _("No results found.") ?></h2>
 
         <?php endif; ?>
 
@@ -30,12 +30,12 @@
             <img class="card-image" src="<?= !empty($result->ResultImage) ? '/img/' . $result->ResultImage : '/img/pattern.png'; ?>">
 
             <div class="card-body">
-                <h2><?= $result->ResultName; ?></h2>
+                <h2><?= htmlentities($result->ResultName); ?></h2>
 
                 <div class="card-score">
                     <h3><?= $result->ResultScore; ?>%</h3>
 
-                    <h4><?= "{$result->RightAnswers} out of {$result->QuestionCount} Questions" ?></h4>
+                    <h4><?= "{$result->RightAnswers} ". _("out of") ." {$result->QuestionCount} " . _("Questions") ?></h4>
 
                     <div class="score-bar">
                         <div style="width: <?= $result->ResultScore; ?>%; background-color: var(--<?= $result->ResultScore < 66 ? ($result->ResultScore < 33 ? 'grey' : 'white') : 'orange'; ?>)"></div>
@@ -43,9 +43,9 @@
                 </div>
 
                 <div class="card-button">
-                    <button class="orange-button" onclick="location.href='/result/details/<?= $result->ResultId; ?>'">View Details</button>
+                    <button class="orange-button" onclick="location.href='/result/details/<?= $result->ResultId; ?>'"><?= _("View Details") ?></button>
 
-                    <button class="grey-button" onclick="location.href='/result/delete/<?= $result->ResultId; ?>'">Delete Result</button>
+                    <button class="grey-button" onclick="location.href='/result/delete/<?= $result->ResultId; ?>'"><?= _("Delete Result") ?></button>
                 </div>
             </div>
         </div>

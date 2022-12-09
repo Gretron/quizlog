@@ -25,29 +25,29 @@
 
     <form class="user-form" method="post">
         <div class="form-field">
-            <label>Username</label>
+            <label><?= _("Username") ?></label>
 
             <input type="text" name="username" pattern="^(?=[a-zA-Z0-9._]{4,48}$)(?!.*[_.]{2})[^_.].*[^_.]$">
         </div>
 
         <div class="form-field">
-            <label>Password</label>
+            <label><?= _("Password") ?></label>
 
-            <input type="text" name="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+            <input type="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
         </div>
 
         <div class="form-field">
-            <label>Confirm Password</label>
+            <label><?= _("Confirm Password") ?></label>
 
-            <input type="text" name="confirm-password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+            <input type="password" name="confirm-password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
         </div>
 
         <button class="orange-button" type="submit" name="submit">Register</button>
 
         <div>
-            <span>Already have an account?</span>
+            <span><?= _("Already have an account?") ?></span>
 
-            <a class="nav-link" href="/user">Log into your account</a>
+            <a class="nav-link" href="/user"><?= _("Log into your account") ?></a>
         </div>
     </form>
 
