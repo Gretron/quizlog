@@ -17,7 +17,7 @@ class Result extends \app\core\Model
 
     public function selectCompleteResultById($resultId)
     {
-        $sql = 'SELECT * FROM Result WHERE ResultId = :resultId AND CompletedTime < :currentTime';
+        $sql = 'SELECT * FROM Result WHERE ResultId = :resultId AND CompletedTime <= :currentTime';
 
         $statement = self::$database->prepare($sql);
         $statement->execute(['resultId' => $resultId, 'currentTime' => date('Y-m-d H:i:s')]);
