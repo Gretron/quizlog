@@ -5,7 +5,5 @@ Feature: View Results
 
   Scenario: try View Results
     Given I am logged in
-    And I am on "localhost/home"
     When I click "History"
-    Then I am on "/result"
-    And I see "%""
+    Then I see "Results"

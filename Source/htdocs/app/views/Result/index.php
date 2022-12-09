@@ -43,9 +43,9 @@
                 </div>
 
                 <div class="card-button">
-                    <button class="orange-button" onclick="location.href='/result/details/<?= $result->ResultId; ?>'"><?= _("View Details") ?></button>
+                    <a href="/result/details/<?= $result->ResultId; ?>"><button class="orange-button"><?= _("View Details") ?></button></a>
 
-                    <button class="grey-button" onclick="location.href='/result/delete/<?= $result->ResultId; ?>'"><?= _("Delete Result") ?></button>
+                    <a href="/result/delete/<?= $result->ResultId; ?>"><button class="grey-button"><?= _("Delete Result") ?></button></a>
                 </div>
             </div>
         </div>

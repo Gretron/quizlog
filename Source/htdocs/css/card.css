@@ -362,12 +362,16 @@
     width: 100%;
 }
 
-.result-card .card-button button {
+.result-card .card-button a {
     width: 100%;
 }
 
-.result-card .card-button button:nth-child(2) {
+.result-card .card-button a:nth-child(2) {
     margin-left: 16px;
+}
+
+.result-card .card-button a button {
+    width: 100%;
 }
 
 .choice-cards .banner {
