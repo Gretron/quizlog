@@ -1,2 +1,2 @@
-# eCommerce-Project
-Repository for the "eCommerce" LIA project.
+# Quizlog
+A quizzing web application.
